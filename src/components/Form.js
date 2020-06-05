@@ -1,6 +1,7 @@
 import React from 'react';
 import './Form.css';
-
+import Instructor from './Instructor.js';
+import Aircraft from './Aircraft.js';
 
 class InputItem extends React.Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class InputItem extends React.Component {
     handleChange(e) {
         this.setState({value: e.target.value});
         //Event, wx, and date have no effect on calculations
-        //need separate handling if change is made to DA.
+        //need separate handling if change is made to DA. (affects TRQ only)
     }
 
     render() {
@@ -22,67 +23,6 @@ class InputItem extends React.Component {
             <div className={this.props.id}>
                 <label htmlFor={this.props.id}>{this.props.label}:</label>
                 <input type="text" id={this.props.id} name={this.props.id} value={this.state.value} onChange={this.handleChange}/>
-            </div>
-        );
-    }
-}
-
-class Instructor extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state={
-            name: this.props.name,
-            weight: this.props.weight,
-            vest: this.props.vest
-        }
-
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleVestChange = this.handleVestChange.bind(this);
-        this.handleWeightChange = this.handleWeightChange.bind(this);
-    }
-
-    handleNameChange(e) {
-        this.setState({name: e.target.value});
-    }
-
-    handleVestChange(e) {
-        let vestDelta;
-        if (e.target.value === 'wet') {
-            vestDelta = 8;
-        } else {
-            vestDelta = -8;
-        }
-        this.setState({
-            vest: e.target.value,
-            weight: Number(this.state.weight)+vestDelta
-        });
-    }
-
-    handleWeightChange(e) {
-        this.setState({weight: Number(e.target.value)});
-    }
-
-
-    render() {
-        return (
-            <div className="instructor">
-                <div className="instructor-name">
-                    <label htmlFor="instructor">Instructor:</label>
-                    <input type="text" id="instructor" name="instructor" value={this.state.name} onChange={this.handleNameChange} />
-                </div>
-                <div className="vest">
-                    <label htmlFor="dry">
-                        <input type="radio" id="dry" name="vest" value="dry" checked={this.state.vest==='dry'} onChange={this.handleVestChange} />
-                        Dry
-                    </label>
-                    <label htmlFor="wet">
-                        <input type="radio" id="wet" name="vest" value="wet" checked={this.state.vest==='wet'} onChange={this.handleVestChange}/>
-                        Wet
-                    </label>
-
-                    <label htmlFor="instructorWeight">Weight:</label>
-                    <input type="number" id="instructorWeight" name="instructorWeight" value={this.state.weight} onChange={this.handleWeightChange} />
-                </div>
             </div>
         );
     }
@@ -124,39 +64,7 @@ class Student extends React.Component {
     }
 }
 
-class Aircraft extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            side: props.aircraft,
-            spot: props.spot
-        }
 
-        this.handleSpotChange = this.handleSpotChange.bind(this);
-        this.handleSideChange = this.handleSideChange.bind(this);
-    }
-
-    handleSpotChange(e) {
-        this.setState({spot: e.target.value});
-    }
-
-    handleSideChange(e) {
-        this.setState({side: e.target.value});
-        //lookup aircraft number for weight and moment
-        //if no side number given, calculate heaviest/most fwd
-    }
-    
-    render() {
-        return (
-            <div className="aircraft">
-                <label htmlFor="side">Aircraft:</label>
-                <input type="text" id="side" name="side" value={this.state.side} onChange={this.handleSideChange} />
-                <label htmlFor="spot">Spot:</label>
-                <input type="text" id="spot" name="spot" value={this.state.spot} onChange={this.handleSpotChange} />
-            </div>
-        );
-    }
-}
 
 /*
 let eventName="C4001";

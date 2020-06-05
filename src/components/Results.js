@@ -1,18 +1,18 @@
 import React from 'react';
 import './Results.css';
 
-class Survey extends React.Component {
+class Results extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (
-            <div className="survey">
+            <div className="results">
 
             </div>
         );
     }
 }
 
-export default Survey;
+export default Results;

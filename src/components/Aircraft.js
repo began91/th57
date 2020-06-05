@@ -39,9 +39,8 @@ class Aircraft extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            aircraft: aircraftList[0],
-            display: aircraftList[0].display,
-            spot: props.spot
+            display: this.props.aircraft.display,
+            spot: ''
         }
 
         this.handleSpotChange = this.handleSpotChange.bind(this);
@@ -54,9 +53,9 @@ class Aircraft extends React.Component {
 
     handleAircraftChange(e) {
         this.setState({
-            display: e.target.value,
-            aircraft: JSON.parse(e.target.value)
+            display: e.target.value
         });
+        this.props.onAircraftChange(JSON.parse(e.target.value));
         //lookup aircraft number for weight and moment
         //if no side number given, calculate heaviest/most fwd
     }

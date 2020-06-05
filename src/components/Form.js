@@ -28,12 +28,31 @@ class InputItem extends React.Component {
     }
 }
 
+class InputDA extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        this.props.onChange(e.target.value);
+    }
+
+    render() {
+        return (
+            <div className={this.props.id}>
+                <label htmlFor={this.props.id}>{this.props.label}</label>
+                <input type="text" id={this.props.id} name={this.props.id} value={this.props.value} onChange={this.handleChange} />
+            </div>
+        );
+    }
+}
+
 class Student extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: this.props.name,
-            weight: this.props.weight
+            name: this.props.name
         }
 
         this.handleWeightChange = this.handleWeightChange.bind(this);
@@ -41,7 +60,8 @@ class Student extends React.Component {
     }
 
     handleWeightChange(e) {
-        this.setState({weight: Number(e.target.value)});
+        this.props.onWtChange(Number(e.target.value));
+        //this.setState({weight: Number(e.target.value)});
     }
 
     handleNameChange(e) {
@@ -57,7 +77,7 @@ class Student extends React.Component {
                 </div>
                 <div className="student-weight">
                 <label htmlFor="studentWeight">Weight:</label>
-                    <input type="number" id="studentWeight" name="studentWeight" value={this.state.weight} onChange={this.handleWeightChange} /> 
+                    <input type="number" id="studentWeight" name="studentWeight" value={this.props.weight} onChange={this.handleWeightChange} /> 
                 </div>
             </div>
         );
@@ -84,18 +104,11 @@ class Form extends React.Component {
         super(props);
         this.state = {
             eventName: 'C4001',
-            aircraft: '123',
-            spot: 'H/S',
             curwx: 'BKN008',
             fcst: 'SKC',
-            instructorName: 'Egan',
-            instructorVest: 'dry',
-            instructorWt: 210,
             studName: 'I. M. Stud',
-            studWt: 195,
             mxTmp: 31,
             pa: 124,
-            da: 1689,
             date: new Date().toDateString()
         }
     }
@@ -106,18 +119,17 @@ class Form extends React.Component {
             <div className="form">
                 <div className="left-header header">
                     <InputItem label="Event" value={this.state.eventName} id="fltEvent"/>
-                    <Instructor name={this.state.instructorName} vest={this.state.instructorVest} 
-                    weight={this.state.instructorWt} />
-                    <Aircraft aircraft={this.state.aircraft} spot={this.state.spot}/>
+                    <Instructor weight={this.props.instWt} onWtChange={this.props.onInstWtChange} />
+                    <Aircraft aircraft={this.props.aircraft} onAircraftChange={this.props.onAircraftChange} />
                     <InputItem label="Current Wx" value={this.state.curwx} id="curwx"/>
                     <InputItem label="Forecast Wx" value={this.state.fcst} id="fcst"/>
                 </div>
                 <div className="right-header header">
                     <InputItem label="Date" value={this.state.date} id="date"/>
-                    <Student name={this.state.studName} weight={this.state.studWt} />
+                    <Student name={this.state.studName} weight={this.props.studWt} onWtChange={this.props.onStudWtChange} />
                     <InputItem label="Max Temp" value={this.state.mxTmp} id="mxTmp" />
                     <InputItem label="Max PA" value={this.state.pa} id="pa"/>
-                    <InputItem label="Max DA" value={this.state.da} id="da"/>
+                    <InputDA label="Max DA" value={this.props.da} id="da" onChange={this.props.onDAChange}/>
                 </div>
             </div>
         );
@@ -126,6 +138,9 @@ class Form extends React.Component {
 
 export default Form;
 /*
+
+name={this.state.instructorName} vest={this.state.instructorVest} 
+
 Results >>>
 <div className="operating">
                     <div className="fields">

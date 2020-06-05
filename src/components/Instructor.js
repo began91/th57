@@ -28,7 +28,6 @@ class Instructor extends React.Component {
         this.state={
             instructor: instructorList[0],
             display: instructorList[0].display,
-            weight: instructorList[0].dry,
             vest: 'dry'
         }
 
@@ -40,20 +39,21 @@ class Instructor extends React.Component {
     handleNameChange(e) {
         this.setState({
             display: e.target.value,
-            instructor: JSON.parse(e.target.value),
-            weight: JSON.parse(e.target.value)[this.state.vest]
+            instructor: JSON.parse(e.target.value)
         });
+        this.props.onWtChange(JSON.parse(e.target.value)[this.state.vest]);
     }
 
     handleVestChange(e) {
         this.setState({
-            vest: e.target.value,
-            weight: this.state.instructor[e.target.value]
+            vest: e.target.value
         });
+        this.props.onWtChange(this.state.instructor[e.target.value])
     }
 
     handleWeightChange(e) {
-        this.setState({weight: Number(e.target.value)});
+        this.props.onWtChange(e.target.value);
+        //this.setState({weight: Number(e.target.value)});
     }
 
 
@@ -82,7 +82,7 @@ class Instructor extends React.Component {
                     </label>
 
                     <label className="instructorWeight" htmlFor="instructorWeight">Weight:</label>
-                    <input type="number" id="instructorWeight" name="instructorWeight" value={this.state.weight} onChange={this.handleWeightChange} />
+                    <input type="number" id="instructorWeight" name="instructorWeight" value={this.props.weight} onChange={this.handleWeightChange} />
                 </div>
             </div>
         );

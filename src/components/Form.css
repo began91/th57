@@ -1,0 +1,17 @@
+.form {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.header {
+    background-color: skyblue;
+    grid-column: auto / span 2;
+}
+
+#side, #spot, #instructorWeight, #studentWeight, #mxTmp, #pa, #da, #fltEvent {
+    width: 50px;
+}
+
+input {
+    margin: 0 5px;
+}

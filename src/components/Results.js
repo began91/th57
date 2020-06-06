@@ -22,15 +22,15 @@ let fuelMoment = fuel => {
 
 let cgHighLimit = (weight, series) => {
     if (weight > 3200) {
-        return weight*-4/1000 + 124.2
+        return Math.round((weight*-4/1000 + 124.2)*10)/10;
     } else if (weight > 2900) {
-        return weight*-11/3000 + 1847/15
+        return Math.round((weight*-11/3000 + 1847/15)*10)/10;
     } else if (weight > 2450 && series==='C') {
         return 112.5;
     } else if (weight > 2000 && series==='C') {
-        return weight/300 + 313/3;
+        return Math.round((weight/300 + 313/3)*10)/10;
     } else if (weight > 2350 && series==='B') {
-        return weight*-17/5500 + 13361/110;
+        return Math.round((weight*-17/5500 + 13361/110)*10)/10;
     } else if (weight > 2000 && series==='B') {
         return 114.2;
     }
@@ -39,16 +39,15 @@ let cgHighLimit = (weight, series) => {
 class Results extends React.Component {
     constructor(props) {
         super(props);
-        
-        this.powerCalcs = this.powerCalcs.bind(this);
-        this.handleFuelChange = this.handleFuelChange.bind(this);
-        this.handleOtherFuel = this.handleOtherFuel.bind(this);
-
         this.state = {
             fuelGal: 70,
             fuelState: '70g',
-            otherFuel: 91
+            otherFuel: 91,
+            extOps: false
         }
+
+        const fnsToBind = ['powerCalcs','handleFuelChange','handleOtherFuel','handleExtOps'];
+        fnsToBind.forEach(fn => this[fn] = this[fn].bind(this));
     }
 
     powerCalcs() {
@@ -101,18 +100,31 @@ class Results extends React.Component {
         let lndMoment = Math.round((opMoment + 74.17 + paxLand * paxArm + baggageLand * bagArm)*100)/100;
         let lndArm = Math.round(lndMoment / lndWt * 1000)/10;
 
-        let highGW = heavGW > extGW ? heavGW : extGW;
+        let highGW, maxTakeoffArm, heavier;
+
+        if (this.state.extOps) {
+            highGW = heavGW > extGW ? heavGW : extGW;
+            maxTakeoffArm = takeoffArm > extArm ? takeoffArm : extArm;
+            heavier = heavGW > extGW ? '1' : '2';
+        } else {
+            highGW = heavGW;
+            maxTakeoffArm = takeoffArm;
+            heavier = '1';
+        }
+        
 
         let cgLow = aircraft.series==='B' ? 106.0 : 106.75;
         let cgHighTakeoff = cgHighLimit(highGW, aircraft.series);
         let cgHighLand = cgHighLimit(lndWt, aircraft.series);
 
+        let fuelAt2900 = Math.round((2900 - heavGW) / 6.7);
+
         return {
             paxTakeoff, paxLand, paxExternal, baggageTakeoff, baggageLand, 
             fuel, crewFwd, aircraft, da, heavWt, fwdWt, basicMoment, heavOpWt,
             fwdOpWt, opMoment, heavGW, fwdGW, takeoffMoment, takeoffArm, extGW,
-            extMoment, extArm, lndWt, lndMoment, lndArm, highGW, cgLow,
-            cgHighTakeoff, cgHighLand, paxArm, bagArm
+            extMoment, extArm, lndWt, lndMoment, lndArm, highGW, cgLow, heavier,
+            cgHighTakeoff, cgHighLand, paxArm, bagArm, fuelAt2900, maxTakeoffArm
         };
     }
 
@@ -136,49 +148,56 @@ class Results extends React.Component {
         });
     }
 
+    handleExtOps(e) {
+        this.setState({extOps: e.target.checked});
+    }
+
     render() {
         let result = this.powerCalcs();
         return (
             <div className="results">
                 <table>
+                    <style>
+                        {this.props.aircraft.side !== 'N/A' ? '.col2 {display:none;}' : ''}
+                        {this.state.extOps ? '' : '.ext {display:none;}'}
+                    </style>
                     <tbody>
                     <tr>
                         <th></th>
-                        <th>Heaviest A/C</th>
-                        <th>FWD CG / Actual A/C</th>
+                        <th className="col2">Heavy {this.props.aircraft.series}</th>
+                        <th>{this.props.aircraft.side === 'N/A' ? 'FWD CG' : this.props.aircraft.display}</th>
                         <th>Moment</th>
                     </tr>
                     <tr>
-                        <th>Basic Weight:</th>
-                        <td>{result.heavWt}</td>
+                        <th>Basic Wt:</th>
+                        <td className="col2">{result.heavWt}</td>
                         <td>{result.fwdWt}</td>
                         <td>{result.basicMoment}</td>
                     </tr>
                     <tr>
-                        <th>Crew Forward:</th>
-                        <td>{result.crewFwd}</td>
+                        <th>Crew Fwd:</th>
+                        <td className="col2">{result.crewFwd}</td>
                         <td>{result.crewFwd}</td>
                         <td>{Math.round(result.crewFwd*0.65*100)/100}</td>
                     </tr>
                     <tr>
                         <th>Oil:</th>
-                        <td>12</td>
+                        <td className="col2">12</td>
                         <td>12</td>
                         <td>22</td>
                     </tr>
                     <tr>
-                        <th>Operating Wt:</th>
-                        <td>{result.heavOpWt}</td>
+                        <th>Op Wt:</th>
+                        <td className="col2">{result.heavOpWt}</td>
                         <td>{result.fwdOpWt}</td>
                         <td>{result.opMoment}</td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <th>Takeoff</th>
+                        <th colspan="4">Takeoff</th>
                     </tr>
                     <tr>
-                        <th>Operating Wt:</th>
-                        <td>{result.heavOpWt}</td>
+                        <th>Op Wt:</th>
+                        <td className="col2">{result.heavOpWt}</td>
                         <td>{result.fwdOpWt}</td>
                         <td>{result.opMoment}</td>
                     </tr>
@@ -197,99 +216,138 @@ class Results extends React.Component {
                                 <input id="fuel-input" type="number" name="otherFuel" value={this.state.otherFuel} onChange={this.handleOtherFuel}/>
                             </label>
                         </th>
-                        <td>{result.fuel}</td>
+                        <td className="col2">{result.fuel}</td>
                         <td>{result.fuel}</td>
                         <td>{fuelMoment(result.fuel)}</td>
                     </tr>
                     <tr>
-                        <th>Crew/Pax Aft:</th>
-                        <td>{result.paxTakeoff}</td>
+                        <th>Crew Aft:</th>
+                        <td className="col2">{result.paxTakeoff}</td>
                         <td>{result.paxTakeoff}</td>
                         <td>{result.paxTakeoff * result.paxArm}</td>
                     </tr>
                     <tr>
                         <th>Baggage:</th>
-                        <td>{result.baggageTakeoff}</td>
+                        <td className="col2">{result.baggageTakeoff}</td>
                         <td>{result.baggageTakeoff}</td>
                         <td>{result.baggageTakeoff * result.bagArm}</td>
                     </tr>
                     <tr>
-                        <th>Gross Weight (1):</th>
-                        <td>{result.heavGW}</td>
+                        <th>Gross Wt(1):</th>
+                        <td className="col2">{result.heavGW}</td>
                         <td>{result.fwdGW}</td>
                         <td>{result.takeoffMoment} ({result.takeoffArm})</td>
                     </tr>
                     <tr>
-                        <td></td>
-                        <th>External OPS</th>
-                        <td></td>
-                        <td></td>
+                        <th colspan="4">
+                            <label for="extOps">
+                                <input type="checkbox" id="extOps" onChange={this.handleExtOps} checked={this.state.extOps}/>
+                                External OPS
+                            </label>
+                        </th>
                     </tr>
-                    <tr>
-                        <th>Operating Wt:</th>
-                        <td></td>
+                    <tr className="ext">
+                        <th>Op Wt:</th>
+                        <td className="col2 gray"></td>
                         <td>{result.fwdOpWt}</td>
                         <td>{result.opMoment}</td>
                     </tr>
-                    <tr>
+                    <tr className="ext">
                         <th>Fuel:</th>
-                        <td></td>
+                        <td className="col2 gray"></td>
                         <td>{Math.round((result.fuel - 100)*10)/10}</td>
                         <td>{fuelMoment(result.fuel-100)}</td>
                     </tr>
-                    <tr>
+                    <tr className="ext">
                         <th>Crew Aft:</th>
-                        <td></td>
+                        <td className="col2 gray"></td>
                         <td>{result.paxExternal}</td>
                         <td>{result.paxExternal * result.paxArm}</td>
                     </tr>
-                    <tr>
-                        <th>External Load:</th>
-                        <td></td>
+                    <tr className="ext">
+                        <th>Ext Load:</th>
+                        <td className="col2 gray"></td>
                         <td>150</td>
                         <td>160.65</td>
                     </tr>
-                    <tr>
-                        <th>Gross Weight (2):</th>
-                        <td></td>
+                    <tr className="ext">
+                        <th>Gross Wt(2):</th>
+                        <td className="col2 gray"></td>
                         <td>{result.extGW}</td>
                         <td>{result.extMoment} ({result.extArm})</td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <th>Landing</th>
-                        <td></td>
-                        <td></td>
+                    <tr>  
+                        <th colspan="4">Landing</th>
                     </tr>
                     <tr>
-                        <th>Operating Wt:</th>
-                        <td></td>
+                        <th>Op Wt:</th>
+                        <td className="col2 gray"></td>
                         <td>{result.fwdOpWt}</td>
                         <td>{result.opMoment}</td>
                     </tr>
                     <tr>
                         <th>Fuel (10g):</th>
-                        <td></td>
+                        <td className="col2 gray"></td>
                         <td>67</td>
                         <td>74.17</td>
                     </tr>
                     <tr>
-                        <th>Crew/Pax Aft:</th>
-                        <td></td>
+                        <th>Crew Aft:</th>
+                        <td className="col2 gray"></td>
                         <td>{result.paxLand}</td>
                         <td>{result.paxLand * result.paxArm}</td>
                     </tr>
                     <tr>
                         <th>Baggage:</th>
-                        <td></td>
+                        <td className="col2 gray"></td>
                         <td>{result.baggageLand}</td>
                         <td>{result.baggageLand * result.bagArm}</td>
                     </tr>
                     <tr>
-                        <th>Gross Wt (3):</th>
-                        <td></td>
+                        <th>Gross Wt(3):</th>
+                        <td className="col2 gray"></td>
                         <td>{result.lndWt}</td>
                         <td>{result.lndMoment} ({result.lndArm})</td>
+                    </tr>
+                    <tr>
+                        <th>T/O GW</th>
+                        <td>({result.heavier})</td>
+                        <td colspan="0">{result.highGW}</td>
+                    </tr>
+                    <tr>
+                        <th>CG Range</th>
+                        <td>{result.cgLow}</td>
+                        <td colspan="0">{result.cgHighTakeoff}</td>
+                    </tr>
+                    <tr>
+                        <th>T/O CG</th>
+                        <td></td>
+                        <td colspan="0">{result.maxTakeoffArm}</td>
+                    </tr>
+                    <tr>
+                        <th>Lnd GW</th>
+                        <td>(3)</td>
+                        <td colspan="0">{result.lndWt}</td>
+                    </tr>
+                    <tr>
+                        <th>CG Range</th>
+                        <td>{result.cgLow}</td>
+                        <td colspan="0">{result.cgHighLand}</td>
+                    </tr>
+                    <tr>
+                        <th>Lnd CG</th>
+                        <td></td>
+                        <td colspan="0">{result.lndArm}</td>
+                    </tr>
+                    <tr>
+                        <th>HIGE/HOGE</th>
+                        <td></td>
+                        <td colspan="0">(Feature Pending)</td>
+                    </tr>
+                    <tr>
+                        <th>Fuel@2900</th>
+                        <td></td>
+                        <td colspan="0">{result.fuelAt2900}</td>
                     </tr>
                     </tbody>
                 </table>

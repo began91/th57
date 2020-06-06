@@ -2,6 +2,7 @@ import React from 'react';
 import './Form.css';
 import Instructor from './Instructor.js';
 import Aircraft from './Aircraft.js';
+import moment from 'moment';
 
 class InputItem extends React.Component {
     constructor(props) {
@@ -109,7 +110,7 @@ class Form extends React.Component {
             studName: 'I. M. Stud',
             mxTmp: 31,
             pa: 124,
-            date: new Date().toDateString()
+            date: new moment().format('DD MMM YY')
         }
     }
     

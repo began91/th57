@@ -5,10 +5,10 @@ let fuelMoment = fuel => {
     let cg=[110.3,110.7,110.8,110.8,110.8,110.8,110.9,111.5,112.8,113.8,114.6,115.3,115.9,116.4,116.9,117.2,117.6,117.9,118.0];
     let moment;
     if (fuel>=90*6.7) {
-        return fuel*1.180;
+        return Math.round(fuel*118.0)/100;
     }
     if (fuel<=5*6.7) {
-        return fuel*1.103;
+        return Math.round(fuel*110.3)/100;
     }
     cg.forEach((arm, i, cgArr) => {
         let lowerFuel = 33.5*(i+1);
@@ -113,18 +113,31 @@ class Results extends React.Component {
         }
         
 
-        let cgLow = aircraft.series==='B' ? 106.0 : 106.75;
+        let cgLow = aircraft.series==='B' ? '106.0' : '106.75';
         let cgHighTakeoff = cgHighLimit(highGW, aircraft.series);
         let cgHighLand = cgHighLimit(lndWt, aircraft.series);
 
-        let fuelAt2900 = Math.round((2900 - heavGW) / 6.7);
+        let fuelAt2900 = Math.round((2900 - heavGW + fuel) / 6.7);
+
+        let ma = 0.921;
+        let ba = 0.2397;
+        let mb = 6.5021;
+        let bb = -12.079;
+        let mc = 35.613;
+        let bc = -20.242;
+        let smallDA = this.props.da / 10000;
+        let smallGW = highGW / 1000;
+
+        let hoge = Math.round((ma * smallGW + ba) * Math.pow(smallDA, 2) + (mb * smallGW + bb) * smallDA +  (mc * smallGW + bc));
+        let hige = Math.round(0.9055 * hoge - 1.8727);
 
         return {
             paxTakeoff, paxLand, paxExternal, baggageTakeoff, baggageLand, 
             fuel, crewFwd, aircraft, da, heavWt, fwdWt, basicMoment, heavOpWt,
             fwdOpWt, opMoment, heavGW, fwdGW, takeoffMoment, takeoffArm, extGW,
             extMoment, extArm, lndWt, lndMoment, lndArm, highGW, cgLow, heavier,
-            cgHighTakeoff, cgHighLand, paxArm, bagArm, fuelAt2900, maxTakeoffArm
+            cgHighTakeoff, cgHighLand, paxArm, bagArm, fuelAt2900, maxTakeoffArm,
+            hige, hoge
         };
     }
 
@@ -188,18 +201,18 @@ class Results extends React.Component {
                     </tr>
                     <tr>
                         <th>Op Wt:</th>
-                        <td className="col2">{result.heavOpWt}</td>
+                        <td className="col2">{result.heavOpWt.toFixed(1)}</td>
                         <td>{result.fwdOpWt}</td>
-                        <td>{result.opMoment}</td>
+                        <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr>
-                        <th colspan="4">Takeoff</th>
+                        <th colSpan="4">Takeoff</th>
                     </tr>
                     <tr>
                         <th>Op Wt:</th>
-                        <td className="col2">{result.heavOpWt}</td>
-                        <td>{result.fwdOpWt}</td>
-                        <td>{result.opMoment}</td>
+                        <td className="col2">{result.heavOpWt.toFixed(1)}</td>
+                        <td>{result.fwdOpWt.toFixed(1)}</td>
+                        <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <th>Fuel:
@@ -218,7 +231,7 @@ class Results extends React.Component {
                         </th>
                         <td className="col2">{result.fuel}</td>
                         <td>{result.fuel}</td>
-                        <td>{fuelMoment(result.fuel)}</td>
+                        <td>{fuelMoment(result.fuel).toFixed(2)}</td>
                     </tr>
                     <tr>
                         <th>Crew Aft:</th>
@@ -234,13 +247,13 @@ class Results extends React.Component {
                     </tr>
                     <tr>
                         <th>Gross Wt(1):</th>
-                        <td className="col2">{result.heavGW}</td>
-                        <td>{result.fwdGW}</td>
-                        <td>{result.takeoffMoment} ({result.takeoffArm})</td>
+                        <td className="col2">{result.heavGW.toFixed(1)}</td>
+                        <td>{result.fwdGW.toFixed(1)}</td>
+                        <td>{result.takeoffMoment.toFixed(2)} ({result.takeoffArm.toFixed(1)})</td>
                     </tr>
                     <tr>
-                        <th colspan="4">
-                            <label for="extOps">
+                        <th colSpan="4">
+                            <label htmlFor="extOps">
                                 <input type="checkbox" id="extOps" onChange={this.handleExtOps} checked={this.state.extOps}/>
                                 External OPS
                             </label>
@@ -250,7 +263,7 @@ class Results extends React.Component {
                         <th>Op Wt:</th>
                         <td className="col2 gray"></td>
                         <td>{result.fwdOpWt}</td>
-                        <td>{result.opMoment}</td>
+                        <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr className="ext">
                         <th>Fuel:</th>
@@ -277,13 +290,13 @@ class Results extends React.Component {
                         <td>{result.extMoment} ({result.extArm})</td>
                     </tr>
                     <tr>  
-                        <th colspan="4">Landing</th>
+                        <th colSpan="4">Landing</th>
                     </tr>
                     <tr>
                         <th>Op Wt:</th>
                         <td className="col2 gray"></td>
                         <td>{result.fwdOpWt}</td>
-                        <td>{result.opMoment}</td>
+                        <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr>
                         <th>Fuel (10g):</th>
@@ -306,52 +319,63 @@ class Results extends React.Component {
                     <tr>
                         <th>Gross Wt(3):</th>
                         <td className="col2 gray"></td>
-                        <td>{result.lndWt}</td>
-                        <td>{result.lndMoment} ({result.lndArm})</td>
+                        <td>{result.lndWt.toFixed(1)}</td>
+                        <td>{result.lndMoment.toFixed(2)} ({result.lndArm.toFixed(1)})</td>
                     </tr>
                     <tr>
                         <th>T/O GW</th>
                         <td>({result.heavier})</td>
-                        <td colspan="0">{result.highGW}</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.highGW.toFixed(1)}</td>
                     </tr>
                     <tr>
                         <th>CG Range</th>
                         <td>{result.cgLow}</td>
-                        <td colspan="0">{result.cgHighTakeoff}</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.cgHighTakeoff.toFixed(1)}</td>
                     </tr>
                     <tr>
                         <th>T/O CG</th>
                         <td></td>
-                        <td colspan="0">{result.maxTakeoffArm}</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.maxTakeoffArm.toFixed(1)}</td>
                     </tr>
                     <tr>
                         <th>Lnd GW</th>
                         <td>(3)</td>
-                        <td colspan="0">{result.lndWt}</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.lndWt.toFixed(1)}</td>
                     </tr>
                     <tr>
                         <th>CG Range</th>
                         <td>{result.cgLow}</td>
-                        <td colspan="0">{result.cgHighLand}</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.cgHighLand.toFixed(1)}</td>
                     </tr>
                     <tr>
                         <th>Lnd CG</th>
                         <td></td>
-                        <td colspan="0">{result.lndArm}</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.lndArm.toFixed(1)}</td>
                     </tr>
                     <tr>
-                        <th>HIGE/HOGE</th>
+                        <th>HIGE/HOGE<div id="torque-i">
+                            &#x24D8;
+                            <span id="torque-info">Torque values are derived from quadratic regression of NATOPS chart. Error when compared to user chart interpretation is average 0.25% Q, maximum 1.58% Q, stdDev 0.75% Q.</span>
+                        </div></th>
                         <td></td>
-                        <td colspan="0">(Feature Pending)</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.hige} / {result.hoge}
+                        </td>
                     </tr>
                     <tr>
                         <th>Fuel@2900</th>
                         <td></td>
-                        <td colspan="0">{result.fuelAt2900}</td>
+                        <td className="col2"></td>
+                        <td colSpan="0">{result.fuelAt2900}g</td>
                     </tr>
                     </tbody>
                 </table>
-                
             </div>
         );
     }

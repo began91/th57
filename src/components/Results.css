@@ -1,3 +1,9 @@
+table {
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 500px;
+}
+
 .fuel-radio {
     display: block;
 }
@@ -8,4 +14,35 @@
 
 .gray {
     background-color: gray;
+}
+
+#torque-i {
+    display: inline;
+}
+
+#torque-info {
+    visibility: hidden;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    background-color: black;
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    bottom: 40px;
+}
+
+@media(hover: hover) and (pointer: fine) {
+    #torque-i:hover #torque-info {
+        visibility: visible;
+    }
+}
+
+@media(any-pointer: coarse) {
+    #torque-i:hover #torque-info {
+        visibility: visible;
+    }
 }

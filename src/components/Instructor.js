@@ -52,7 +52,7 @@ class Instructor extends React.Component {
     }
 
     handleWeightChange(e) {
-        this.props.onWtChange(e.target.value);
+        this.props.onWtChange(Number(e.target.value));
         //this.setState({weight: Number(e.target.value)});
     }
 

@@ -35,14 +35,14 @@ class InputDA extends React.Component {
     }
 
     handleChange(e) {
-        this.props.onChange(e.target.value);
+        this.props.onChange(Number(e.target.value));
     }
 
     render() {
         return (
             <div className={this.props.id}>
                 <label htmlFor={this.props.id}>{this.props.label}</label>
-                <input type="text" id={this.props.id} name={this.props.id} value={this.props.value} onChange={this.handleChange} />
+                <input type="number" id={this.props.id} name={this.props.id} value={this.props.value} onChange={this.handleChange} />
             </div>
         );
     }
@@ -112,7 +112,6 @@ class Form extends React.Component {
             date: new Date().toDateString()
         }
     }
-    
     
     render() {
         return (

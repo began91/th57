@@ -3,7 +3,7 @@ import React from 'react';
 import './App.css';
 import Form from './components/Form.js';
 //import Survey from './components/Survey.js';
-//import Results from './components/Results.js';
+import Results from './components/Results.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -60,6 +60,8 @@ class App extends React.Component {
         aircraft={this.state.aircraft}
         onAircraftChange={this.onAircraftChange} />
         
+        <Results da={this.state.da} crewFwd={this.state.studWt + this.state.instWt} aircraft={this.state.aircraft} />
+
       </div>
     );
   }

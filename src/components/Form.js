@@ -42,7 +42,7 @@ class InputDA extends React.Component {
     render() {
         return (
             <div className={this.props.id}>
-                <label htmlFor={this.props.id}>{this.props.label}</label>
+                <label htmlFor={this.props.id}>{this.props.label}:</label>
                 <input type="number" id={this.props.id} name={this.props.id} value={this.props.value} onChange={this.handleChange} />
             </div>
         );
@@ -73,7 +73,7 @@ class Student extends React.Component {
         return (
             <div className="student">
                 <div className="student-name">
-                    <label htmlFor="studentName">Student:</label>
+                    <label htmlFor="studentName">Stud<span className="shorten">ent</span>:</label>
                     <input type="text" id="studentName" name="studentName" value={this.state.name} onChange={this.handleNameChange} />
                 </div>
                 <div className="student-weight">
@@ -121,8 +121,8 @@ class Form extends React.Component {
                     <InputItem label="Event" value={this.state.eventName} id="fltEvent"/>
                     <Instructor weight={this.props.instWt} onWtChange={this.props.onInstWtChange} />
                     <Aircraft aircraft={this.props.aircraft} onAircraftChange={this.props.onAircraftChange} />
-                    <InputItem label="Current Wx" value={this.state.curwx} id="curwx"/>
-                    <InputItem label="Forecast Wx" value={this.state.fcst} id="fcst"/>
+                    <InputItem label="Crnt Wx" value={this.state.curwx} id="curwx"/>
+                    <InputItem label="Fcst Wx" value={this.state.fcst} id="fcst"/>
                 </div>
                 <div className="right-header header">
                     <InputItem label="Date" value={this.state.date} id="date"/>
@@ -137,92 +137,3 @@ class Form extends React.Component {
 }
 
 export default Form;
-/*
-
-name={this.state.instructorName} vest={this.state.instructorVest} 
-
-Results >>>
-<div className="operating">
-                    <div className="fields">
-
-                    </div>
-                    <div className="heaviest">
-
-                    </div>
-                    <div className="fwd-actual">
-
-                    </div>
-                    <div className="moment">
-
-                    </div>
-                </div>
-                <div className="takeoff">
-                    <div className="fields">
-
-                    </div>
-                    <div className="heaviest">
-
-                    </div>
-                    <div className="fwd-actual">
-
-                    </div>
-                    <div className="moment">
-
-                    </div>
-                </div>
-                <div className="external">
-                    <div className="fields">
-
-                    </div>
-                    <div className="heaviest">
-
-                    </div>
-                    <div className="fwd-actual">
-
-                    </div>
-                    <div className="moment">
-
-                    </div>
-                </div>
-                <div className="landing">
-                    <div className="fields">
-
-                    </div>
-                    <div className="heaviest">
-
-                    </div>
-                    <div className="fwd-actual">
-
-                    </div>
-                    <div className="moment">
-
-                    </div>
-                </div>
-                <div className="checks">
-
-                </div>
-
-
-
-
-<Event id={eventName} />
-                    <Instructor name="Egan" vest="Dry" weight="210"/>
-                    <Aircraft side="123" spot="A1" />
-                    <Weather current="curwx" forecast="fcst" />
-                </div>
-                <div className="right-header">
-                    <Date date={new Date().toDateString()} />
-                    <Student name="I.M. Stud" weight="210" />
-                    <Temp temp="21C" />
-                    <PA pa="+210" />
-                    <DA da="+1545" />
-
-
-
-${new Date().toDateString()}
-
-div className="form">
-                <h4 className="event">Event</h4>
-                <input className="event">{this.props.event}</input>
-            </div>
-*/

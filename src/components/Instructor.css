@@ -4,4 +4,9 @@ select {
 
 .instructorWeight {
     margin-left: 10px;
+    width: 38px;
+}
+
+.instructor-selector {
+    width: 148px;
 }

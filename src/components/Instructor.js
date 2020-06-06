@@ -9,18 +9,16 @@ function inst(fname, lname, weight) {
         wet: weight + 18,
         dry: weight + 10,
         id: lname+fname,
-        display: `${lname}, ${fname}: ${weight+10} / ${weight+18}`
+        display: `${lname},${fname}: ${weight+10}|${weight+18}`
     }
 }
 
 const instructorList = [
     inst('Mif','Monster',200),
-    inst('Brendan','Egan',210), 
-    inst('Sean','Greiner',200), 
-    inst('Joseph','Gallagher',225)    
+    inst('B','Egan',210), 
+    inst('S','Greiner',200), 
+    inst('J','Gallagher',225)    
 ];
-
-//"Egan, B. 210/218", "Greiner, S. 205/213", "Gallagher, J. 220/228"];
 
 class Instructor extends React.Component {
     constructor(props) {
@@ -61,7 +59,8 @@ class Instructor extends React.Component {
         return (
             <div className="instructor">
                 <div className="instructor-name">
-                    <label htmlFor="instructor">Instructor:
+                    <label htmlFor="instructor">
+                        Inst<span className="shorten">ructor</span>:
                         <select className="instructor-selector" value={this.state.display} onChange={this.handleNameChange}>
                             {instructorList.map(instructor => {
                                 return (

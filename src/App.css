@@ -35,3 +35,12 @@
     transform: rotate(360deg);
   }
 }
+
+footer p {
+  font-size: x-small;
+}
+
+.selected {
+  border-style: inset;
+  font-weight: bold;
+}

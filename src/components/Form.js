@@ -127,7 +127,7 @@ class Form extends React.Component {
                 <div className="right-header header">
                     <InputItem label="Date" value={this.state.date} id="date"/>
                     <Student name={this.state.studName} weight={this.props.studWt} onWtChange={this.props.onStudWtChange} />
-                    <InputItem label="Max Temp" value={this.state.mxTmp} id="mxTmp" />
+                    <InputItem label="Max Tmp" value={this.state.mxTmp} id="mxTmp" />
                     <InputItem label="Max PA" value={this.state.pa} id="pa"/>
                     <InputDA label="Max DA" value={this.props.da} id="da" onChange={this.props.onDAChange}/>
                 </div>

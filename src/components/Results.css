@@ -1,19 +1,66 @@
+.results {
+    display: flex;
+    justify-content: center;
+}
+
 table {
     margin-bottom: 50px;
     width: 100%;
     max-width: 500px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border-top: 1px solid black;
+    border-left: 3px double black;
+    border-right: 3px double black;
+}
+
+tr.no-borders th, tr.no-borders td {
+    border: 0px solid white;
+}
+
+tr.no-borders td {
+    border-bottom: 2px solid black;
+    text-align: auto;
+}
+
+.heading {
+    border-top: 3px solid black;
+    text-decoration: underline;
+    border-bottom: 1px solid black;
+}
+
+.row-head {
+    text-align: right;
+}
+
+
+#fuel-cell {
+    vertical-align: top;
 }
 
 .fuel-radio {
     display: block;
 }
 
+label.fuel-radio span {
+    margin-right: 5px;
+}
+
+#fuel-container {
+    display: inline-block;
+}
+
 #fuel-input {
     width: 30px;
+    margin: 0;
+    padding: 0;
 }
 
 .gray {
-    background-color: gray;
+    background-color: lightgray;
+    border: 0px solid lightgray;
 }
 
 #torque-i {
@@ -32,7 +79,8 @@ table {
     padding: 5px;
     font-size: 12px;
     font-weight: 400;
-    bottom: 40px;
+    bottom: 100px;
+    right: 100px;
 }
 
 @media(hover: hover) and (pointer: fine) {

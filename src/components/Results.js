@@ -82,7 +82,7 @@ class Results extends React.Component {
         //Operating Weight/Moment
         let heavOpWt = heavWt + crewFwd + 12;
         let fwdOpWt = fwdWt + crewFwd + 12;
-        let opMoment = Math.round(basicMoment + crewFwd * 0.65 + 22);
+        let opMoment = Math.round((basicMoment + crewFwd * 0.65 + 22)*100)/100;
         
         //Takeoff Weight/Moment
         let heavGW = Math.round((heavOpWt + fuel + paxTakeoff + baggageTakeoff)*10)/10;
@@ -175,6 +175,7 @@ class Results extends React.Component {
                         {this.state.extOps ? '' : '.ext {display:none;}'}
                     </style>
                     <tbody>
+                        <tr className="heading"></tr>
                     <tr>
                         <th></th>
                         <th className="col2">Heavy {this.props.aircraft.series}</th>
@@ -182,77 +183,79 @@ class Results extends React.Component {
                         <th>Moment</th>
                     </tr>
                     <tr>
-                        <th>Basic Wt:</th>
+                        <th className="row-head">Basic Wt:</th>
                         <td className="col2">{result.heavWt}</td>
                         <td>{result.fwdWt}</td>
                         <td>{result.basicMoment}</td>
                     </tr>
                     <tr>
-                        <th>Crew Fwd:</th>
+                        <th className="row-head">Crew Fwd:</th>
                         <td className="col2">{result.crewFwd}</td>
                         <td>{result.crewFwd}</td>
                         <td>{Math.round(result.crewFwd*0.65*100)/100}</td>
                     </tr>
                     <tr>
-                        <th>Oil:</th>
+                        <th className="row-head">Oil:</th>
                         <td className="col2">12</td>
                         <td>12</td>
                         <td>22</td>
                     </tr>
                     <tr>
-                        <th>Op Wt:</th>
+                        <th className="row-head">Op Wt:</th>
                         <td className="col2">{result.heavOpWt.toFixed(1)}</td>
                         <td>{result.fwdOpWt}</td>
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr>
-                        <th colSpan="4">Takeoff</th>
+                        <th colSpan="4" className="heading">Takeoff</th>
                     </tr>
                     <tr>
-                        <th>Op Wt:</th>
+                        <th className="row-head">Op Wt:</th>
                         <td className="col2">{result.heavOpWt.toFixed(1)}</td>
                         <td>{result.fwdOpWt.toFixed(1)}</td>
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr>
-                        <th>Fuel:
-                            <label className="fuel-radio" htmlFor="70g">
-                                <input  type="radio" name="fuel" value="70g" id="70g" onChange={this.handleFuelChange} checked={this.state.fuelState==='70g'}/>
-                                70g
-                            </label>
-                            <label className="fuel-radio" htmlFor="65g">
-                                <input type="radio" name="fuel" value="65g" id="70g" onChange={this.handleFuelChange} checked={this.state.fuelState==='65g'}/>
-                                65g
-                            </label>
-                            <label className="fuel-radio" htmlFor="__g">
-                                <input type="radio" name="fuel" value="__g" id="__g" onChange={this.handleFuelChange} checked={this.state.fuelState==='__g'}/>
-                                <input id="fuel-input" type="number" name="otherFuel" value={this.state.otherFuel} onChange={this.handleOtherFuel}/>
-                            </label>
+                        <th id="fuel-cell" className="row-head">Fuel:
+                            <div id="fuel-container">
+                                <label className="fuel-radio" htmlFor="70g">
+                                    <input  type="radio" name="fuel" value="70g" id="70g" onChange={this.handleFuelChange} checked={this.state.fuelState==='70g'}/>
+                                    <span>70g</span>
+                                </label>
+                                <label className="fuel-radio" htmlFor="65g">
+                                    <input type="radio" name="fuel" value="65g" id="70g" onChange={this.handleFuelChange} checked={this.state.fuelState==='65g'}/>
+                                    <span>65g</span>
+                                </label>
+                                <label className="fuel-radio" htmlFor="__g">
+                                    <input type="radio" name="fuel" value="__g" id="__g" onChange={this.handleFuelChange} checked={this.state.fuelState==='__g'}/>
+                                    <input id="fuel-input" type="number" name="otherFuel" value={this.state.otherFuel} onChange={this.handleOtherFuel}/>
+                                </label>
+                            </div>
                         </th>
                         <td className="col2">{result.fuel}</td>
                         <td>{result.fuel}</td>
                         <td>{fuelMoment(result.fuel).toFixed(2)}</td>
                     </tr>
                     <tr>
-                        <th>Crew Aft:</th>
+                        <th className="row-head">Crew Aft:</th>
                         <td className="col2">{result.paxTakeoff}</td>
                         <td>{result.paxTakeoff}</td>
                         <td>{result.paxTakeoff * result.paxArm}</td>
                     </tr>
                     <tr>
-                        <th>Baggage:</th>
+                        <th className="row-head">Baggage:</th>
                         <td className="col2">{result.baggageTakeoff}</td>
                         <td>{result.baggageTakeoff}</td>
                         <td>{result.baggageTakeoff * result.bagArm}</td>
                     </tr>
                     <tr>
-                        <th>Gross Wt(1):</th>
+                        <th className="row-head">Gross Wt(1):</th>
                         <td className="col2">{result.heavGW.toFixed(1)}</td>
                         <td>{result.fwdGW.toFixed(1)}</td>
                         <td>{result.takeoffMoment.toFixed(2)} ({result.takeoffArm.toFixed(1)})</td>
                     </tr>
                     <tr>
-                        <th colSpan="4">
+                        <th colSpan="4" className="heading">
                             <label htmlFor="extOps">
                                 <input type="checkbox" id="extOps" onChange={this.handleExtOps} checked={this.state.extOps}/>
                                 External OPS
@@ -260,118 +263,104 @@ class Results extends React.Component {
                         </th>
                     </tr>
                     <tr className="ext">
-                        <th>Op Wt:</th>
+                        <th className="row-head">Op Wt:</th>
                         <td className="col2 gray"></td>
                         <td>{result.fwdOpWt}</td>
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr className="ext">
-                        <th>Fuel:</th>
+                        <th className="row-head">Fuel:</th>
                         <td className="col2 gray"></td>
                         <td>{Math.round((result.fuel - 100)*10)/10}</td>
                         <td>{fuelMoment(result.fuel-100)}</td>
                     </tr>
                     <tr className="ext">
-                        <th>Crew Aft:</th>
+                        <th className="row-head">Crew Aft:</th>
                         <td className="col2 gray"></td>
                         <td>{result.paxExternal}</td>
                         <td>{result.paxExternal * result.paxArm}</td>
                     </tr>
                     <tr className="ext">
-                        <th>Ext Load:</th>
+                        <th className="row-head">Ext Load:</th>
                         <td className="col2 gray"></td>
                         <td>150</td>
                         <td>160.65</td>
                     </tr>
                     <tr className="ext">
-                        <th>Gross Wt(2):</th>
+                        <th className="row-head">Gross Wt(2):</th>
                         <td className="col2 gray"></td>
                         <td>{result.extGW}</td>
                         <td>{result.extMoment} ({result.extArm})</td>
                     </tr>
                     <tr>  
-                        <th colSpan="4">Landing</th>
+                        <th colSpan="4" className="heading">Landing</th>
                     </tr>
                     <tr>
-                        <th>Op Wt:</th>
+                        <th className="row-head">Op Wt:</th>
                         <td className="col2 gray"></td>
                         <td>{result.fwdOpWt}</td>
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr>
-                        <th>Fuel (10g):</th>
+                        <th className="row-head">Fuel (10g):</th>
                         <td className="col2 gray"></td>
                         <td>67</td>
                         <td>74.17</td>
                     </tr>
                     <tr>
-                        <th>Crew Aft:</th>
+                        <th className="row-head">Crew Aft:</th>
                         <td className="col2 gray"></td>
                         <td>{result.paxLand}</td>
                         <td>{result.paxLand * result.paxArm}</td>
                     </tr>
                     <tr>
-                        <th>Baggage:</th>
+                        <th className="row-head">Baggage:</th>
                         <td className="col2 gray"></td>
                         <td>{result.baggageLand}</td>
                         <td>{result.baggageLand * result.bagArm}</td>
                     </tr>
                     <tr>
-                        <th>Gross Wt(3):</th>
+                        <th className="row-head">Gross Wt(3):</th>
                         <td className="col2 gray"></td>
                         <td>{result.lndWt.toFixed(1)}</td>
                         <td>{result.lndMoment.toFixed(2)} ({result.lndArm.toFixed(1)})</td>
                     </tr>
-                    <tr>
-                        <th>T/O GW</th>
-                        <td>({result.heavier})</td>
-                        <td className="col2"></td>
+                    <tr className="heading"></tr>
+                    <tr className="no-borders">
+                        <th className="row-head">T/O GW: ({result.heavier})</th>
                         <td colSpan="0">{result.highGW.toFixed(1)}</td>
                     </tr>
-                    <tr>
-                        <th>CG Range</th>
-                        <td>{result.cgLow}</td>
-                        <td className="col2"></td>
-                        <td colSpan="0">{result.cgHighTakeoff.toFixed(1)}</td>
+                    <tr className="no-borders">
+                        <th className="row-head">CG Range:</th>
+                        <td colSpan="0">{result.cgLow} - {result.cgHighTakeoff.toFixed(1)}</td>
                     </tr>
-                    <tr>
-                        <th>T/O CG</th>
-                        <td></td>
-                        <td className="col2"></td>
+                    <tr className="no-borders">
+                        <th className="row-head">T/O CG:</th>
                         <td colSpan="0">{result.maxTakeoffArm.toFixed(1)}</td>
                     </tr>
-                    <tr>
-                        <th>Lnd GW</th>
-                        <td>(3)</td>
-                        <td className="col2"></td>
+                    <tr className="no-borders">
+                        <th className="row-head">Lnd GW: (3)</th>
                         <td colSpan="0">{result.lndWt.toFixed(1)}</td>
                     </tr>
-                    <tr>
-                        <th>CG Range</th>
-                        <td>{result.cgLow}</td>
-                        <td className="col2"></td>
-                        <td colSpan="0">{result.cgHighLand.toFixed(1)}</td>
+                    <tr className="no-borders">
+                        <th className="row-head">CG Range:</th>
+                        <td colSpan="0">{result.cgLow} - {result.cgHighLand.toFixed(1)}</td>
                     </tr>
-                    <tr>
-                        <th>Lnd CG</th>
-                        <td></td>
-                        <td className="col2"></td>
+                    <tr className="no-borders">
+                        <th className="row-head">Lnd CG:</th>
                         <td colSpan="0">{result.lndArm.toFixed(1)}</td>
                     </tr>
-                    <tr>
-                        <th>HIGE/HOGE<div id="torque-i">
+                    <tr className="no-borders">
+                        <th className="row-head"><div id="torque-i">
+                        HIGE/HOGE:
                             &#x24D8;
-                            <span id="torque-info">Torque values are derived from quadratic regression of NATOPS chart. Error when compared to user chart interpretation is average 0.25% Q, maximum 1.58% Q, stdDev 0.75% Q.</span>
+                            <span id="torque-info">Torque values are derived from quadratic regression of NATOPS chart. Error when compared to user chart interpretation is average 0.25% Q. (stdDev 0.75% Q)</span>
                         </div></th>
-                        <td></td>
-                        <td className="col2"></td>
                         <td colSpan="0">{result.hige} / {result.hoge}
                         </td>
                     </tr>
-                    <tr>
-                        <th>Fuel@2900</th>
-                        <td></td>
-                        <td className="col2"></td>
+                    <tr className="no-borders">
+                        <th className="row-head">Fuel@2900:</th>
                         <td colSpan="0">{result.fuelAt2900}g</td>
                     </tr>
                     </tbody>

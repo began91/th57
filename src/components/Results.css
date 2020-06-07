@@ -56,6 +56,14 @@ label.fuel-radio span {
     padding: 0;
 }
 
+input.paxTakeoff, input.baggageTakeoff, input.paxExternal, input.extLoad, input.paxLand, input.baggageLand {
+    width: 50px;
+}
+
+input.extFuelGal {
+    width: 40px;
+}
+
 .gray {
     background-color: lightgray;
     border: 0px solid lightgray;

@@ -43,19 +43,28 @@ class Results extends React.Component {
             fuelGal: 70,
             fuelState: '70g',
             otherFuel: 91,
-            extOps: false
+            extOps: false,
+            paxTakeoff: 0,
+            baggageTakeoff: 0,
+            paxExternal: 200,
+            extLoad: 150,
+            extFuelGal: 60,
+            paxLand: 0,
+            baggageLand: 0
         }
 
-        const fnsToBind = ['powerCalcs','handleFuelChange','handleOtherFuel','handleExtOps'];
+        const fnsToBind = ['powerCalcs','handleFuelChange','handleOtherFuel','handleExtOps','handleInput'];
         fnsToBind.forEach(fn => this[fn] = this[fn].bind(this));
     }
 
     powerCalcs() {
-        let paxTakeoff = 0;
-        let paxLand = 0;
-        let paxExternal = 0;
-        let baggageTakeoff = 0;
-        let baggageLand = 0;
+        let paxTakeoff = this.state.paxTakeoff
+        let paxLand = this.state.paxLand;
+        let paxExternal = this.state.paxExternal;
+        let extLoad = this.state.extLoad;
+        let extFuel = this.state.extFuelGal*6.7;
+        let baggageTakeoff = this.state.baggageTakeoff;
+        let baggageLand = this.state.baggageLand;
         let fuel = Math.round(this.state.fuelGal * 6.7 *10)/10;
         let crewFwd = this.props.crewFwd;
         let aircraft = this.props.aircraft;
@@ -91,8 +100,8 @@ class Results extends React.Component {
         let takeoffArm = Math.round( takeoffMoment / fwdGW * 1000)/10;
 
         //Externals
-        let extGW = Math.round((fwdOpWt + fuel - 100 + paxExternal + 150)*10)/10;
-        let extMoment = Math.round((opMoment + fuelMoment(fuel-100) + paxExternal * paxArm + 160.65)*100)/100;
+        let extGW = Math.round((fwdOpWt + extFuel - 100 + paxExternal + extLoad)*10)/10;
+        let extMoment = Math.round((opMoment + fuelMoment(extFuel) + paxExternal * paxArm + extLoad*1.071)*100)/100;
         let extArm = Math.round(extMoment / extGW * 1000)/10;
 
         //Landing Weight/Moment
@@ -137,7 +146,7 @@ class Results extends React.Component {
             fwdOpWt, opMoment, heavGW, fwdGW, takeoffMoment, takeoffArm, extGW,
             extMoment, extArm, lndWt, lndMoment, lndArm, highGW, cgLow, heavier,
             cgHighTakeoff, cgHighLand, paxArm, bagArm, fuelAt2900, maxTakeoffArm,
-            hige, hoge
+            hige, hoge, extLoad, extFuel
         };
     }
 
@@ -163,6 +172,10 @@ class Results extends React.Component {
 
     handleExtOps(e) {
         this.setState({extOps: e.target.checked});
+    }
+
+    handleInput(e) {
+        this.setState({[e.target.className]: Number(e.target.value)});
     }
 
     render() {
@@ -238,15 +251,15 @@ class Results extends React.Component {
                     </tr>
                     <tr>
                         <th className="row-head">Crew Aft:</th>
-                        <td className="col2">{result.paxTakeoff}</td>
-                        <td>{result.paxTakeoff}</td>
-                        <td>{result.paxTakeoff * result.paxArm}</td>
+                        <td className="col2"><input type="number" className="paxTakeoff" value={this.state.paxTakeoff} onChange={this.handleInput} /></td>
+                        <td><input type="number" className="paxTakeoff" value={this.state.paxTakeoff} onChange={this.handleInput} /></td>
+                        <td>{Math.round(result.paxTakeoff * result.paxArm*100)/100}</td>
                     </tr>
                     <tr>
                         <th className="row-head">Baggage:</th>
-                        <td className="col2">{result.baggageTakeoff}</td>
-                        <td>{result.baggageTakeoff}</td>
-                        <td>{result.baggageTakeoff * result.bagArm}</td>
+                        <td className="col2"><input type="number" className="baggageTakeoff" value={this.state.baggageTakeoff} onChange={this.handleInput} /></td>
+                        <td><input type="number" className="baggageTakeoff" value={this.state.baggageTakeoff} onChange={this.handleInput} /></td>
+                        <td>{Math.round(result.baggageTakeoff * result.bagArm *100)/100}</td>
                     </tr>
                     <tr>
                         <th className="row-head">Gross Wt(1):</th>
@@ -269,22 +282,22 @@ class Results extends React.Component {
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr className="ext">
-                        <th className="row-head">Fuel:</th>
+                        <th className="row-head">Fuel:<input type="number" className="extFuelGal" value={this.state.extFuelGal} onChange={this.handleInput} /></th>
                         <td className="col2 gray"></td>
-                        <td>{Math.round((result.fuel - 100)*10)/10}</td>
-                        <td>{fuelMoment(result.fuel-100)}</td>
+                        <td>{Math.round(result.extFuel*10)/10}</td>
+                        <td>{fuelMoment(result.extFuel)}</td>
                     </tr>
                     <tr className="ext">
                         <th className="row-head">Crew Aft:</th>
                         <td className="col2 gray"></td>
-                        <td>{result.paxExternal}</td>
-                        <td>{result.paxExternal * result.paxArm}</td>
+                        <td><input type="number" className="paxExternal" value={this.state.paxExternal} onChange={this.handleInput} /></td>
+                        <td>{Math.round(result.paxExternal * result.paxArm *100)/100}</td>
                     </tr>
                     <tr className="ext">
                         <th className="row-head">Ext Load:</th>
                         <td className="col2 gray"></td>
-                        <td>150</td>
-                        <td>160.65</td>
+                        <td><input type="number" className="extLoad" value={this.state.extLoad} onChange={this.handleInput} /></td>
+                        <td>{Math.round(result.extLoad * 1.071*100)/100}</td>
                     </tr>
                     <tr className="ext">
                         <th className="row-head">Gross Wt(2):</th>
@@ -310,14 +323,14 @@ class Results extends React.Component {
                     <tr>
                         <th className="row-head">Crew Aft:</th>
                         <td className="col2 gray"></td>
-                        <td>{result.paxLand}</td>
-                        <td>{result.paxLand * result.paxArm}</td>
+                        <td><input type="number" className="paxLand" value={this.state.paxLand} onChange={this.handleInput} /></td>
+                        <td>{Math.round(result.paxLand * result.paxArm * 100)/100}</td>
                     </tr>
                     <tr>
                         <th className="row-head">Baggage:</th>
                         <td className="col2 gray"></td>
-                        <td>{result.baggageLand}</td>
-                        <td>{result.baggageLand * result.bagArm}</td>
+                        <td><input type="number" className="baggageLand" value={this.state.baggageLand} onChange={this.handleInput} /></td>
+                        <td>{Math.round(result.baggageLand * result.bagArm*100)/100}</td>
                     </tr>
                     <tr>
                         <th className="row-head">Gross Wt(3):</th>

@@ -60,7 +60,11 @@ class App extends React.Component {
           {'.'+this.state.view + '-view {display:block;}'}
         </style>
         <header className="App-header">
-          TH-57 Weight and Balance
+          <div class="logo-holder">
+            <img src={require('./images/helo.png')} className="helo" />
+            <img src={require('./images/rotor.png')} className="rotor App-logo" />
+          </div>
+          <span>TH-57 Weight and Balance</span>
         </header>
         <div className="WB-view">
           <Form 
@@ -92,6 +96,7 @@ class App extends React.Component {
         </div>  
         <footer>
           <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:began91@yahoo.com?subject=TH-57 Weight and Balance Notification&amp;body=Please note the following discrepancy, bug, or feature request:">began91@yahoo.com</a>.</p>
+          <p>&copy; 2020</p>
         </footer>
       </div>
     );

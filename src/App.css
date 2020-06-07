@@ -2,10 +2,36 @@
   text-align: center;
 }
 
+.logo-holder {
+  margin: -10px -8px -10px -20px;
+  padding: 0;
+}
+
+.helo {
+  width: 50px;
+  rotate: -45deg;
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  left: 50px;
+}
+
+.rotor {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  object-position: 0 0;
+  scale: calc(100/100);
+  rotate: -45deg;
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+}
+
 .App-logo {
-  height: 40vmin;
   pointer-events: none;
 }
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -13,14 +39,20 @@
   }
 }
 
+
 .App-header {
   background-color: #282c34;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-header span {
+  display: inline-block;
+  position: relative;
 }
 
 .App-link {

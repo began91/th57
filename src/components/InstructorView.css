@@ -1,0 +1,12 @@
+div.INST-view {
+    text-align: center;
+}
+
+div.INST-view table {
+    display:inline-flex;
+    justify-content:center;
+}
+
+div.INST-view tbody {
+    border: 3px double black;
+}

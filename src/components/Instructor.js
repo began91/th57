@@ -1,24 +1,7 @@
 import React from 'react';
 import './Instructor.css';
+import {instructorList} from '../data/lists.js'
 
-function inst(fname, lname, weight) {
-    return {
-        fname,
-        lname,
-        weight,
-        wet: weight + 18,
-        dry: weight + 10,
-        id: lname+fname,
-        display: `${lname},${fname}: ${weight+10}|${weight+18}`
-    }
-}
-
-const instructorList = [
-    inst('Mif','Monster',200),
-    inst('B','Egan',210), 
-    inst('S','Greiner',200), 
-    inst('J','Gallagher',225)    
-];
 
 class Instructor extends React.Component {
     constructor(props) {

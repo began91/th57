@@ -2,8 +2,9 @@ import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import Form from './components/Form.js';
-//import Survey from './components/Survey.js';
 import Results from './components/Results.js';
+import AircraftView from './components/AircraftView.js';
+import InstructorView from './components/InstructorView.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -73,19 +74,24 @@ class App extends React.Component {
           
           <Results da={this.state.da} crewFwd={this.state.studWt + this.state.instWt} aircraft={this.state.aircraft} />
         </div>
+        <div className="change-display AC-view INST-view">
+          <button className={this.state.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&amp;B</button>
+          <button className={this.state.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
+          <button className={this.state.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
+        </div>
         <div className="AC-view">
-          aircraft
+          <AircraftView />
         </div>
         <div className="INST-view">
-          instructors
+          <InstructorView />
         </div>
+        <div className="change-display">
+          <button className={this.state.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&amp;B</button>
+          <button className={this.state.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
+          <button className={this.state.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
+        </div>  
         <footer>
-          <div id="change-display">
-            <button id="show-results" className={this.state.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&B</button>
-            <button id="show-aircraft" className={this.state.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
-            <button id="show-instructors" className={this.state.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
-          </div>  
-          <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:began91@yahoo.com?subject=TH-57 Weight and Balance Notification&body=Please note the following discrepancy, bug, or feature request:">began91@yahoo.com</a>.</p>
+          <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:began91@yahoo.com?subject=TH-57 Weight and Balance Notification&amp;body=Please note the following discrepancy, bug, or feature request:">began91@yahoo.com</a>.</p>
         </footer>
       </div>
     );

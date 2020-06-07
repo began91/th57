@@ -1,0 +1,12 @@
+div.AC-view {
+    text-align: center;
+}
+
+div.AC-view table {
+    display:inline-flex;
+    justify-content:center;
+}
+
+div.AC-view tbody {
+    border: 3px double black;
+}

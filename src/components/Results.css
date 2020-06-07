@@ -66,13 +66,23 @@ input.extFuelGal {
     width: 40px;
 }
 
-.err {
+.good {
+    background-color: lightgreen;
+    color: green;
+    font-weight:bold;
+}
+
+td.good span, td.caution span, td.goodcaution span {
+    display:none;
+}
+
+.err, .gooderr {
     background-color: pink;
     color: red;
     font-weight: bold;
 }
 
-.caution {
+.caution, .goodcaution {
     background-color: lightyellow;
     color: goldenrod;
     font-weight: bold;

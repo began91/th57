@@ -1,11 +1,13 @@
 .results {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 table {
     max-width: 500px;
     border-collapse: collapse;
+    margin: 0 5px;
 }
 
 th, td {
@@ -62,6 +64,18 @@ input.paxTakeoff, input.baggageTakeoff, input.paxExternal, input.extLoad, input.
 
 input.extFuelGal {
     width: 40px;
+}
+
+.err {
+    background-color: pink;
+    color: red;
+    font-weight: bold;
+}
+
+.caution {
+    background-color: lightyellow;
+    color: goldenrod;
+    font-weight: bold;
 }
 
 .gray {

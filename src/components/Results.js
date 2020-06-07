@@ -339,9 +339,13 @@ class Results extends React.Component {
                         <td>{result.lndMoment.toFixed(2)} ({result.lndArm.toFixed(1)})</td>
                     </tr>
                     <tr className="heading"></tr>
+                    </tbody>
+                    </table>
+                    <table>
+                    <tbody>
                     <tr className="no-borders">
                         <th className="row-head">T/O GW: ({result.heavier})</th>
-                        <td colSpan="0">{result.highGW.toFixed(1)}</td>
+                        <td colSpan="0" className={result.highGW > 3200 ? 'err' : ''}>{result.highGW.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">CG Range:</th>
@@ -349,19 +353,19 @@ class Results extends React.Component {
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">T/O CG:</th>
-                        <td colSpan="0">{result.maxTakeoffArm.toFixed(1)}</td>
+                        <td colSpan="0" className={(result.maxTakeoffArm > result.cgHighTakeoff || result.maxTakeoffArm < result.cgLow) ? 'err' : ''}>{result.maxTakeoffArm.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">Lnd GW: (3)</th>
-                        <td colSpan="0">{result.lndWt.toFixed(1)}</td>
+                        <td colSpan="0" className={result.landWt > 3200 ? 'err' : ''}>{result.lndWt.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">CG Range:</th>
-                        <td colSpan="0">{result.cgLow} - {result.cgHighLand.toFixed(1)}</td>
+                        <td colSpan="0" >{result.cgLow} - {result.cgHighLand.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">Lnd CG:</th>
-                        <td colSpan="0">{result.lndArm.toFixed(1)}</td>
+                        <td colSpan="0" className={(result.lndArm > result.cgHighLand || result.lndArm < result.cgLow) ? 'err' : ''}>{result.lndArm.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head"><div id="torque-i">
@@ -369,7 +373,7 @@ class Results extends React.Component {
                             &#x24D8;
                             <span id="torque-info">Torque values are derived from quadratic regression of NATOPS chart. Error when compared to user chart interpretation is average 0.25% Q. (stdDev 0.75% Q)</span>
                         </div></th>
-                        <td colSpan="0">{result.hige} / {result.hoge}
+                        <td colSpan="0" className={((result.hige >= 85 && result.hige < 100) ? 'caution' : '') + (result.hige >= 100 ? 'err' : '')}>{result.hige} / {result.hoge}
                         </td>
                     </tr>
                     <tr className="no-borders">

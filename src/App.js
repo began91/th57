@@ -21,7 +21,7 @@ class App extends React.Component {
         id: 'N/AB'
       },
       da: 1423,
-      view: 'WB'
+      view: 'INST'
     }
     const fnsToBind=['onDAChange','onStudWtChange','onInstWtChange','onAircraftChange','handleViewChange'];
     fnsToBind.forEach(fn => {

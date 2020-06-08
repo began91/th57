@@ -3,13 +3,13 @@
 }
 
 .logo-holder {
-  margin: -10px -8px -10px -20px;
+  margin: -10px 0px -20px -30px;
   padding: 0;
 }
 
 .helo {
   width: 50px;
-  rotate: -45deg;
+  rotate: -90deg;
   display: inline-block;
   position: relative;
   z-index: 1;
@@ -22,7 +22,7 @@
   object-fit: cover;
   object-position: 0 0;
   scale: calc(100/100);
-  rotate: -45deg;
+  rotate: -90deg;
   display: inline-block;
   position: relative;
   z-index: 2;

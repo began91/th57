@@ -47,8 +47,6 @@ class App extends React.Component {
   }
 
   handleViewChange(e) {
-    console.log(this.state.view);
-    console.log(e.target.value);
     this.setState({view: e.target.value});
   }
 
@@ -60,9 +58,9 @@ class App extends React.Component {
           {'.'+this.state.view + '-view {display:block;}'}
         </style>
         <header className="App-header">
-          <div class="logo-holder">
-            <img src={require('./images/helo.png')} className="helo" />
-            <img src={require('./images/rotor.png')} className="rotor App-logo" />
+          <div className="logo-holder">
+            <img src={require('./images/helo.png')} alt="" className="helo" />
+            <img src={require('./images/rotor.png')} alt="" className="rotor App-logo" />
           </div>
           <span>TH-57 Weight and Balance</span>
         </header>

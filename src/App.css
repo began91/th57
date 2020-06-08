@@ -9,11 +9,15 @@
 
 .helo {
   width: 50px;
-  rotate: 270deg;
   display: inline-block;
   position: relative;
   z-index: 1;
   left: 50px;
+  transform: rotateZ(-45deg);
+  -ms-transform: rotateZ(-45deg);
+  -webkit-transform: rotateZ(-45deg);
+  -moz-transform: rotateZ(-45deg);
+  -o-transform: rotateZ(-45deg);
 }
 
 .rotor {
@@ -22,7 +26,6 @@
   object-fit: cover;
   object-position: 0 0;
   scale: calc(100/100);
-  rotate: 270deg;
   display: inline-block;
   position: relative;
   z-index: 2;

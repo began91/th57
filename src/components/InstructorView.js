@@ -30,8 +30,7 @@ class InstructorView extends React.Component {
             <table>
                 <tbody>
                     <tr>
-                        <th onClick={this.onSort} className="lname">Last</th>
-                        <th onClick={this.onSort} className="fname">First</th>
+                        <th onClick={this.onSort} className="name">Name</th>
                         <th onClick={this.onSort} className="weight">Weight</th>
                         <th onClick={this.onSort} className="dry">Dry</th>
                         <th onClick={this.onSort} className="wet">Wet</th>
@@ -40,8 +39,7 @@ class InstructorView extends React.Component {
                     {instructorList.map(instructor => {
                         return (
                             <tr key={instructor.id}>
-                                <td>{instructor.lname}</td>
-                                <td>{instructor.fname}</td>
+                                <td>{instructor.name}</td>
                                 <td>{instructor.weight}</td>
                                 <td>{instructor.dry}</td>
                                 <td>{instructor.wet}</td>

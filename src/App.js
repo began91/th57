@@ -20,7 +20,7 @@ class App extends React.Component {
         display: 'N/A B',
         id: 'N/AB'
       },
-      da: 1423,
+      da: 0,
       view: 'WB'
     }
     const fnsToBind=['onDAChange','onStudWtChange','onInstWtChange','onAircraftChange','handleViewChange'];

@@ -64,7 +64,7 @@ class Instructor extends React.Component {
                     </label>
 
                     <label className="instructorWeight" htmlFor="instructorWeight">Weight:</label>
-                    <input type="number" id="instructorWeight" name="instructorWeight" value={this.props.weight} onChange={this.handleWeightChange} />
+                    <input type="number" pattern="[0-9]*" id="instructorWeight" name="instructorWeight" value={this.props.weight} onChange={this.handleWeightChange} />
                 </div>
             </div>
         );

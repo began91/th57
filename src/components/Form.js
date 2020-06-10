@@ -29,6 +29,31 @@ class InputItem extends React.Component {
     }
 }
 
+class InputNum extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {value: this.props.value};
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+
+    handleChange(e) {
+        this.setState({value: e.target.value});
+        //Event, wx, and date have no effect on calculations
+        //need separate handling if change is made to DA. (affects TRQ only)
+    }
+
+    render() {
+        return (
+            <div className={this.props.id}>
+                <label htmlFor={this.props.id}>{this.props.label}:</label>
+                <input type="number" pattern="[0-9]*" id={this.props.id} name={this.props.id} value={this.state.value} onChange={this.handleChange}/>
+            </div>
+        );
+    }
+}
+
 class InputDA extends React.Component {
     constructor(props) {
         super(props);
@@ -43,7 +68,7 @@ class InputDA extends React.Component {
         return (
             <div className={this.props.id}>
                 <label htmlFor={this.props.id}>{this.props.label}:</label>
-                <input type="number" id={this.props.id} name={this.props.id} value={this.props.value} onChange={this.handleChange} />
+                <input type="number" pattern="[0-9]*" id={this.props.id} name={this.props.id} value={this.props.value} onChange={this.handleChange} />
             </div>
         );
     }
@@ -78,7 +103,7 @@ class Student extends React.Component {
                 </div>
                 <div className="student-weight">
                 <label htmlFor="studentWeight">Weight:</label>
-                    <input type="number" id="studentWeight" name="studentWeight" value={this.props.weight} onChange={this.handleWeightChange} /> 
+                    <input type="number" pattern="[0-9]*" id="studentWeight" name="studentWeight" value={this.props.weight} onChange={this.handleWeightChange} /> 
                 </div>
             </div>
         );
@@ -105,11 +130,11 @@ class Form extends React.Component {
         super(props);
         this.state = {
             eventName: 'C4001',
-            curwx: 'BKN008',
-            fcst: 'SKC',
+            curwx: '',
+            fcst: '',
             studName: 'I. M. Stud',
-            mxTmp: 31,
-            pa: 124,
+            mxTmp: 0,
+            pa: 0,
             date: new moment().format('DD MMM YY')
         }
     }
@@ -127,8 +152,8 @@ class Form extends React.Component {
                 <div className="right-header header">
                     <InputItem label="Date" value={this.state.date} id="date"/>
                     <Student name={this.state.studName} weight={this.props.studWt} onWtChange={this.props.onStudWtChange} />
-                    <InputItem label="Max Tmp" value={this.state.mxTmp} id="mxTmp" />
-                    <InputItem label="Max PA" value={this.state.pa} id="pa"/>
+                    <InputNum label="Max Tmp" value={this.state.mxTmp} id="mxTmp" />
+                    <InputNum label="Max PA" value={this.state.pa} id="pa"/>
                     <InputDA label="Max DA" value={this.props.da} id="da" onChange={this.props.onDAChange}/>
                 </div>
             </div>

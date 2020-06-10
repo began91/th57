@@ -48,7 +48,7 @@ class Results extends React.Component {
             baggageTakeoff: 0,
             paxExternal: 200,
             extLoad: 150,
-            extFuelGal: 60,
+            extFuelGal: 50,
             paxLand: 0,
             baggageLand: 0
         }

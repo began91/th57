@@ -35,9 +35,13 @@ tr.no-borders td {
     text-align: right;
 }
 
-
 #fuel-cell {
-    vertical-align: top;
+    display: flex;
+}
+
+#fuel-head {
+    display: inline-flex;
+    flex-direction: column;
 }
 
 .fuel-radio {
@@ -50,6 +54,7 @@ label.fuel-radio span {
 
 #fuel-container {
     display: inline-block;
+    text-align: left;
 }
 
 #fuel-input {
@@ -58,7 +63,7 @@ label.fuel-radio span {
     padding: 0;
 }
 
-input.paxTakeoff, input.baggageTakeoff, input.paxExternal, input.extLoad, input.paxLand, input.baggageLand {
+input.pax, input.baggage, input.paxExternal, input.extLoad {
     width: 50px;
 }
 

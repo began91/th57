@@ -39,6 +39,17 @@ tr.no-borders td {
     display: flex;
 }
 
+#max-fuel-button {
+    width: 40px;
+    height: 3em;
+    text-align: center;
+    padding: 0;
+}
+
+#max-fuel-button-external {
+    display: block;
+}
+
 #fuel-head {
     display: inline-flex;
     flex-direction: column;

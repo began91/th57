@@ -49,10 +49,11 @@ class Results extends React.Component {
             paxExternal: 200,
             extLoad: 150,
             extFuelGal: 50,
-            maxFuel: 90
+            maxFuel: 0,
+            maxFuelExt: 0
         }
 
-        const fnsToBind = ['powerCalcs','handleFuelChange','handleOtherFuel','handleExtOps','handleInput','setMaxFuel'];
+        const fnsToBind = ['powerCalcs','handleFuelChange','handleOtherFuel','handleExtOps','handleInput','handleMaxExtFuel'];
         fnsToBind.forEach(fn => this[fn] = this[fn].bind(this));
     }
 
@@ -95,12 +96,13 @@ class Results extends React.Component {
         let fwdGW = Math.round((fwdOpWt + fuel + pax + baggage)*10)/10;
         let takeoffMoment = Math.round((opMoment + fuelMoment(fuel) + pax * paxArm + baggage * bagArm)*100)/100;
         let takeoffArm = Math.round( takeoffMoment / fwdGW * 1000)/10;
-        let maxFuel = Math.floor((3200 - heavOpWt - pax - baggage) / 6.7);
+        let maxFuel = Math.min(Math.floor((3200 - heavOpWt - pax - baggage) / 6.7), 91);
 
         //Externals
-        let extGW = Math.round((fwdOpWt + extFuel - 100 + paxExternal + extLoad)*10)/10;
+        let extGW = Math.round((fwdOpWt + extFuel + paxExternal + extLoad)*10)/10;
         let extMoment = Math.round((opMoment + fuelMoment(extFuel) + paxExternal * paxArm + extLoad*1.071)*100)/100;
         let extArm = Math.round(extMoment / extGW * 1000)/10;
+        let maxFuelExt = Math.min(Math.floor((3200 - fwdOpWt - paxExternal - extLoad) / 6.7), 91);
 
         //Landing Weight/Moment
         let lndWt = fwdOpWt + 67 + pax + baggage;
@@ -143,7 +145,7 @@ class Results extends React.Component {
             fwdOpWt, opMoment, heavGW, fwdGW, takeoffMoment, takeoffArm, extGW,
             extMoment, extArm, lndWt, lndMoment, lndArm, highGW, cgLow, heavier,
             cgHighTakeoff, cgHighLand, paxArm, bagArm, fuelAt2900, maxTakeoffArm,
-            hige, hoge, extLoad, extFuel, maxFuel
+            hige, hoge, extLoad, extFuel, maxFuel, maxFuelExt
         };
     }
 
@@ -175,12 +177,8 @@ class Results extends React.Component {
         this.setState({[e.target.className]: Number(e.target.value)});
     }
 
-    setMaxFuel(e) {
-        this.setState({
-            fuelState: '__g',
-            otherFuel: this.state.maxFuel,
-            fuelGal: this.state.maxFuel
-        });
+    handleMaxExtFuel(e) {
+        this.setState({extFuelGal: e.target.value});
     }
 
     render() {
@@ -238,7 +236,7 @@ class Results extends React.Component {
                             <div id="fuel-cell">
                                 <div id="fuel-head">
                                     <span>Fuel:</span>
-                                    <button onClick={this.handleOtherFuel} value={result.maxFuel}>Set Max</button>
+                                    <button id="max-fuel-button" onClick={this.handleOtherFuel} value={result.maxFuel}>Set Max</button>
                                 </div>
                                 <div id="fuel-container">
                                     <label className="fuel-radio" htmlFor="70g">
@@ -293,7 +291,9 @@ class Results extends React.Component {
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr className="ext">
-                        <th className="row-head">Fuel:<input type="number" pattern="[0-9]*" className="extFuelGal" value={this.state.extFuelGal} onChange={this.handleInput} /></th>
+                        <th className="row-head">Fuel:<input type="number" pattern="[0-9]*" className="extFuelGal" value={this.state.extFuelGal} onChange={this.handleInput} />
+                        <button id="max-fuel-button-external" onClick={this.handleMaxExtFuel} value={result.maxFuelExt}>Set Max</button>
+                        </th>
                         <td className="col2 gray"></td>
                         <td>{Math.round(result.extFuel*10)/10}</td>
                         <td>{fuelMoment(result.extFuel)}</td>

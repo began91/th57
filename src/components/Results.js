@@ -44,9 +44,9 @@ class Results extends React.Component {
             fuelState: '70g',
             otherFuel: 91,
             extOps: false,
-            pax: 0,
-            baggage: 0,
-            paxExternal: 200,
+            pax: '',
+            baggage: '',
+            paxExternal: '',
             extLoad: 150,
             extFuelGal: 50,
             maxFuel: 0,
@@ -58,13 +58,13 @@ class Results extends React.Component {
     }
 
     powerCalcs() {
-        let pax = this.state.pax;
-        let paxExternal = this.state.paxExternal;
+        let pax = Number(this.state.pax);
+        let paxExternal = Number(this.state.paxExternal);
         let extLoad = this.state.extLoad;
         let extFuel = this.state.extFuelGal*6.7;
-        let baggage = this.state.baggage;
+        let baggage = Number(this.state.baggage);
         let fuel = Math.round(this.state.fuelGal * 6.7 *10)/10;
-        let crewFwd = this.props.crewFwd;
+        let crewFwd = Number(this.props.crewFwd);
         let aircraft = this.props.aircraft;
         let da = this.props.da;
         let heavWt, fwdWt, basicMoment;
@@ -133,7 +133,7 @@ class Results extends React.Component {
         let bb = -12.079;
         let mc = 35.613;
         let bc = -20.242;
-        let smallDA = this.props.da / 10000;
+        let smallDA = Number(this.props.da) / 10000;
         let smallGW = highGW / 1000;
 
         let hoge = Math.round((ma * smallGW + ba) * Math.pow(smallDA, 2) + (mb * smallGW + bb) * smallDA +  (mc * smallGW + bc));

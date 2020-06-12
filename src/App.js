@@ -11,7 +11,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       instWt: 210,
-      studWt: 195,
+      studWt: '',
       aircraft: {
         side: 'N/A',
         series: 'B',
@@ -20,7 +20,7 @@ class App extends React.Component {
         display: 'N/A B',
         id: 'N/AB'
       },
-      da: 0,
+      da: '',
       view: 'WB'
     }
     const fnsToBind=['onDAChange','onStudWtChange','onInstWtChange','onAircraftChange','handleViewChange'];

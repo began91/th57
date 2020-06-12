@@ -133,8 +133,8 @@ class Form extends React.Component {
             curwx: '',
             fcst: '',
             studName: '',
-            mxTmp: 0,
-            pa: 0,
+            mxTmp: '',
+            pa: '',
             date: new moment().format('DD MMM YY')
         }
     }

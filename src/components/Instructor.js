@@ -8,21 +8,27 @@ class Instructor extends React.Component {
         super(props);
         this.state={
             instructor: instructorList[0],
-            display: instructorList[0].display,
-            vest: 'dry'
+            display: '',
+            vest: 'wet'
         }
 
-        this.handleNameChange = this.handleNameChange.bind(this);
-        this.handleVestChange = this.handleVestChange.bind(this);
-        this.handleWeightChange = this.handleWeightChange.bind(this);
+        const fnsToBind = ['handleInput','handleVestChange','handleWeightChange','instructorFilter','selectInstructor'];
+        fnsToBind.forEach(fn => this[fn] = this[fn].bind(this));
     }
 
-    handleNameChange(e) {
+    handleInput(e) {
         this.setState({
             display: e.target.value,
-            instructor: JSON.parse(e.target.value)
         });
-        this.props.onWtChange(JSON.parse(e.target.value)[this.state.vest]);
+    }
+
+    selectInstructor(e, instructor) {
+        console.log(instructor);
+        this.setState({
+            instructor,
+            display: instructor.display
+        });
+        this.props.onWtChange(instructor[this.state.vest]);
     }
 
     handleVestChange(e) {
@@ -34,9 +40,15 @@ class Instructor extends React.Component {
 
     handleWeightChange(e) {
         this.props.onWtChange(Number(e.target.value));
-        //this.setState({weight: Number(e.target.value)});
     }
 
+    instructorFilter(instructor) {
+        if (this.state.display === '' || this.state.display === this.state.instructor.display) {
+            return false;
+        } else {
+            return (instructor.display.substr(0,this.state.display.length).toLowerCase() === this.state.display.toLowerCase());
+        }
+    }
 
     render() {
         return (
@@ -44,13 +56,19 @@ class Instructor extends React.Component {
                 <div className="instructor-name">
                     <label htmlFor="instructor">
                         Inst<span className="shorten">ructor</span>:
-                        <select className="instructor-selector" value={this.state.display} onChange={this.handleNameChange}>
-                            {instructorList.map(instructor => {
-                                return (
-                                <option value={JSON.stringify(instructor)} key={instructor.id}>{instructor.display}</option>
-                                );
-                            })}
-                        </select>
+                        <div className="autocomplete">
+                            <input type="text" className="instructor" value={this.state.display} onChange={this.handleInput} />
+                            <div className="autocomplete-items">
+                                {instructorList.filter(this.instructorFilter)
+                                .map(instructor => {
+                                    return (
+                                        <div className="autocomplete-item" key={instructor.id} onClick={e => this.selectInstructor(e, instructor)}>
+                                            {instructor.display}
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </div>
                     </label>
                 </div>
                 <div className="vest">

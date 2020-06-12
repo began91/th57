@@ -10,3 +10,43 @@ select {
 .instructor-selector {
     width: 148px;
 }
+
+/* this is the input guy */
+.autocomplete {
+    position: relative;
+    display: inline-block;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid #525252;
+    border-top: none;
+    border-bottom: none;
+    background-color: white;
+    z-index: 99;
+    left: 5px;
+    right: 5px;
+}
+
+.autocomplete-item {
+    overflow: clip;
+    text-align: left;
+    border-bottom: 1px solid #525252;
+}
+
+/*
+.autocomplete-item {
+    position: absolute;
+    border: 1px solid black;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    cursor: pointer;
+}
+*/
+
+.autocomplete-item:hover {
+    background-color: #e9e9e9;
+}

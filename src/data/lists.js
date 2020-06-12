@@ -256,6 +256,7 @@ function instTW5(name, weight) {
 }
 
 const instListTW5 = [
+    instTW5('ROSA',175),
     instTW5('LABERGE',210),
     instTW5('FARMER',250),
     instTW5('SULPIZIO',180),

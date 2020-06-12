@@ -129,10 +129,10 @@ class Form extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            eventName: 'C4001',
+            eventName: '',
             curwx: '',
             fcst: '',
-            studName: 'I. M. Stud',
+            studName: '',
             mxTmp: 0,
             pa: 0,
             date: new moment().format('DD MMM YY')

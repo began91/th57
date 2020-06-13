@@ -1,4 +1,4 @@
-import { SET_VALUE } from './types';
+import { SET_VALUE, SET_URL } from './types';
 
 function setValue(key, value) {
     return {
@@ -8,4 +8,11 @@ function setValue(key, value) {
     }
 }
 
-export {setValue};
+function setURL(url) {
+    return {
+        type: SET_URL,
+        url: url
+    }
+}
+
+export {setValue, setURL};

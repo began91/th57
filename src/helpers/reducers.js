@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import moment from 'moment';
-import { SET_VALUE } from '../actions/types';
+import { SET_VALUE, SET_URL } from '../actions/types';
 //get query parameters to set initial states!!!!
 let initialResultState = {
     extOps: false,
@@ -30,7 +30,6 @@ function resultsReducer(state=initialResultState,action) {
 let initialFormState = {
     eventName: '',
     inst: '',
-    instDisplay: '',
     vest: 'wet',
     instWt: '',
     aircraftID: 'unkB',
@@ -71,8 +70,18 @@ function appReducer(state=initialAppState, action) {
     }
 }
 
+function urlReducer(state='', action) {
+    switch (action.type) {
+        case SET_URL:
+            return action.url;
+        default:
+            return state;
+    }
+}
+
 export default combineReducers({
     results: resultsReducer,
     form: formReducer,
-    app: appReducer
+    app: appReducer,
+    url: urlReducer
 });

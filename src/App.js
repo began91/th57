@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setValue } from './actions/Actions';
+import { setValue, setURL } from './actions/Actions';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './App.css';
 import Form from './components/Form.js';
 import Results from './components/Results.js';
@@ -27,7 +28,10 @@ class App extends React.Component {
   }
 
   updatePermalink() {
-    let url = '?';
+    let url = window.location.origin + '/th57?';
+    console.log(this.props.results);
+    console.log(this.props.form);
+    console.log(this.props.app);
     Object.entries(this.props.form).forEach(([key,value]) => {
       url += (key + '=' + value + '&');
     })
@@ -38,6 +42,7 @@ class App extends React.Component {
       url += (key + '=' + value + '&');
     })
     console.log(url)
+    this.props.setURL(url);
     //window.location.search = url;
   }
 
@@ -82,7 +87,11 @@ class App extends React.Component {
           <button className={this.props.app.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&amp;B</button>
           <button className={this.props.app.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
           <button className={this.props.app.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
-        </div>  
+        </div>
+        <CopyToClipboard className="permalink" text={this.props.url}>
+          <button>Copy Permalink</button>
+        </CopyToClipboard>  
+          <p>{this.props.url}</p>
         <footer>
           <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:began91@yahoo.com?subject=TH-57 Weight and Balance Notification&amp;body=Please note the following discrepancy, bug, or feature request:">began91@yahoo.com</a>.</p>
           <p>&copy; 2020</p>
@@ -92,4 +101,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(state => state, {setValue})(App);
+export default connect(state => state, {setValue, setURL})(App);

@@ -1,24 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setValue } from '../actions/Actions';
 import './Aircraft.css';
 import {aircraftList} from '../helpers/lists.js';
 
 class Aircraft extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            spot: ''
-        }
 
         this.handleSpotChange = this.handleSpotChange.bind(this);
         this.handleAircraftChange = this.handleAircraftChange.bind(this);
     }
 
     handleSpotChange(e) {
-        this.setState({spot: e.target.value});
+        this.props.setValue('spot', e.target.value);
     }
 
     handleAircraftChange(e) {
-        this.props.onChange('aircraftID', e.target.value);
+        this.props.setValue('aircraftID', e.target.value);
     }
     
     render() {
@@ -33,10 +32,15 @@ class Aircraft extends React.Component {
                     })}
                 </select>
                 <label htmlFor="spot">Spot:</label>
-                <input type="text" id="spot" name="spot" value={this.state.spot} onChange={this.handleSpotChange} />
+                <input type="text" id="spot" name="spot" value={this.props.spot} onChange={this.handleSpotChange} />
             </div>
         );
     }
 }
 
-export default Aircraft;
+const mapStateToProps = state => ({
+    spot: state.form.spot,
+    aircraftID: state.form.aircraftID
+})
+
+export default connect(mapStateToProps, {setValue})(Aircraft);

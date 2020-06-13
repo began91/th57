@@ -136,8 +136,7 @@ function inst8(name, weight) {
         sqd: 'HT- 8',
         wet: weight + 18,
         dry: weight + 10,
-        id: name + '8',
-        display: `${name}: HT-8`
+        id: `${name}: HT-8`
     }
 }
 
@@ -227,8 +226,7 @@ function instHITU(name, weight) {
         sqd: 'HITU',
         wet: weight + 18,
         dry: weight + 10,
-        id: name + 'HITU',
-        display: `${name}: HITU`
+        id: `${name}: HITU`
     }
 }
 
@@ -249,8 +247,7 @@ function instTW5(name, weight) {
         sqd: 'TW-5',
         wet: weight + 18,
         dry: weight + 10,
-        id: name + 'TW5',
-        display: `${name}: TW-5`
+        id: `${name}: TW-5`
     }
 }
 
@@ -270,8 +267,7 @@ function inst18(name, wet) {
         sqd: 'HT-18',
         wet,
         dry: wet - 10,
-        id: name + '18',
-        display: `${name}: HT-18`
+        id: `${name}: HT-18`
     }
 }
 
@@ -362,8 +358,7 @@ function inst28(name, wet) {
         sqd: 'HT-28',
         wet,
         dry: wet - 10,
-        id: name + '28',
-        display: `${name}: HT-28`
+        id: `${name}: HT-28`
     }
 }
 
@@ -463,8 +458,7 @@ const instructorList = [
         sqd: 'TW-5',
         wet: 220,
         dry: 210,
-        id: 'Santa' + '5',
-        display: `Santa: TW-5`
+        id: 'Santa: TW-5'
     },
     ...instList8,
     ...instList18,
@@ -473,13 +467,11 @@ const instructorList = [
     ...instListTW5
 ];
 
+const getInstById = id => instructorList.find(inst => inst.id === id);
+
 export {
     aircraftList, 
     getAcftById,
-    instructorList,
-    instList8,
-    instList18,
-    instList28,
-    instListHITU,
-    instListTW5
+    getInstById,
+    instructorList
 };

@@ -1,53 +1,44 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setValue } from '../actions/Actions';
 import './Instructor.css';
-import {instructorList} from '../helpers/lists.js'
-
+import {instructorList, getInstById} from '../helpers/lists.js'
 
 class Instructor extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
-            instructor: instructorList[0],
-            display: '',
-            vest: 'wet'
-        }
 
         const fnsToBind = ['handleInput','handleVestChange','handleWeightChange','instructorFilter','selectInstructor'];
         fnsToBind.forEach(fn => this[fn] = this[fn].bind(this));
     }
 
     handleInput(e) {
-        this.setState({
-            display: e.target.value,
-        });
+        this.props.setValue('inst', e.target.value);
     }
 
     selectInstructor(e, instructor) {
-        this.setState({
-            instructor,
-            display: instructor.display
-        });
-        this.props.onChange('inst',instructor.display)
-        this.props.onChange('instWt',instructor[this.state.vest]);
+        this.props.setValue('inst',instructor.id);
+        this.props.setValue('instWt',instructor[this.props.vest]);
     }
 
     handleVestChange(e) {
-        this.setState({
-            vest: e.target.value
-        });
-        this.props.onChange('vest',e.target.value)
-        this.props.onChange('instWt',this.state.instructor[e.target.value])
+        this.props.setValue('vest', e.target.value);
+        if (getInstById(this.props.inst)) {
+            this.props.setValue('instWt',getInstById(this.props.inst)[e.target.value])
+        } else {
+            this.props.setValue('instWt',Number(this.props.instWt) + (e.target.value ==='dry' ? -8 : 8));
+        }
     }
 
     handleWeightChange(e) {
-        this.props.onChange('instWt',Number(e.target.value));
+        this.props.setValue('instWt',Number(e.target.value));
     }
 
     instructorFilter(instructor) {
-        if (this.state.display === '' || this.state.display === this.state.instructor.display) {
+        if (this.props.inst === '' || getInstById(this.props.inst)) {
             return false;
         } else {
-            return (instructor.display.substr(0,this.state.display.length).toLowerCase() === this.state.display.toLowerCase());
+            return (instructor.id.substr(0,this.props.inst.length).toLowerCase() === this.props.inst.toLowerCase());
         }
     }
 
@@ -58,13 +49,13 @@ class Instructor extends React.Component {
                     <label htmlFor="instructor">
                         Inst<span className="shorten">ructor</span>:
                         <div className="autocomplete">
-                            <input type="text" className="instructor" value={this.state.display} onChange={this.handleInput} />
+                            <input type="text" className="instructor" value={this.props.inst} onChange={this.handleInput} />
                             <div className="autocomplete-items">
                                 {instructorList.filter(this.instructorFilter)
                                 .map(instructor => {
                                     return (
                                         <div className="autocomplete-item" key={instructor.id} onClick={e => this.selectInstructor(e, instructor)}>
-                                            {instructor.display}
+                                            {instructor.id}
                                         </div>
                                     );
                                 })}
@@ -74,20 +65,26 @@ class Instructor extends React.Component {
                 </div>
                 <div className="vest">
                     <label htmlFor="dry">
-                        <input type="radio" id="dry" name="vest" value="dry" checked={this.state.vest==='dry'} onChange={this.handleVestChange} />
+                        <input type="radio" id="dry" name="vest" value="dry" checked={this.props.vest==='dry'} onChange={this.handleVestChange} />
                         Dry
                     </label>
                     <label htmlFor="wet">
-                        <input type="radio" id="wet" name="vest" value="wet" checked={this.state.vest==='wet'} onChange={this.handleVestChange}/>
+                        <input type="radio" id="wet" name="vest" value="wet" checked={this.props.vest==='wet'} onChange={this.handleVestChange}/>
                         Wet
                     </label>
 
                     <label className="instructorWeight" htmlFor="instructorWeight">Weight:</label>
-                    <input type="number" pattern="[0-9]*" id="instructorWeight" name="instructorWeight" value={this.props.weight} onChange={this.handleWeightChange} />
+                    <input type="number" pattern="[0-9]*" id="instructorWeight" name="instructorWeight" value={this.props.instWt} onChange={this.handleWeightChange} />
                 </div>
             </div>
         );
     }
 }
 
-export default Instructor;
+const mapStateToProps = state => ({
+    inst: state.form.inst,
+    instWt: state.form.instWt,
+    vest: state.form.vest
+})
+
+export default connect(mapStateToProps, {setValue})(Instructor);

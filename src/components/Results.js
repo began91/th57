@@ -1,7 +1,7 @@
 import React from 'react';
 //import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { toggleExtOps, setValue } from '../actions/addActions';
+import { setValue } from '../actions/Actions';
 import './Results.css';
 import { getAcftById } from '../helpers/lists';
 
@@ -56,7 +56,7 @@ class Results extends React.Component {
         let extFuel = this.props.extFuelGal*6.7;
         let baggage = Number(this.props.baggage);
         let fuel = Math.round(this.props.fuelGal * 6.7 *10)/10;
-        let crewFwd = Number(this.props.crewFwd);
+        let crewFwd = Number(this.props.instWt) + Number(this.props.studWt);
         let da = this.props.da;
         let heavWt, fwdWt, basicMoment;
 
@@ -149,8 +149,8 @@ class Results extends React.Component {
         } else if (e.target.value==='__g') {
             fuelGal = this.props.otherFuel;
         }
-        this.setValue('fuelState', e.target.value);
-        this.setValue('fuelGal',fuelGal); 
+        this.props.setValue('fuelState', e.target.value);
+        this.props.setValue('fuelGal',fuelGal); 
     }
 
     handleOtherFuel(e) {
@@ -160,7 +160,7 @@ class Results extends React.Component {
     }
 
     handleExtOps(e) {
-        this.props.toggleExtOps();
+        this.props.setValue('extOps',e.target.checked);
     }
 
     handleInput(e) {
@@ -168,7 +168,7 @@ class Results extends React.Component {
     }
 
     handleMaxExtFuel(e) {
-        this.setValue('extFuelGal', e.target.value);
+        this.props.setValue('extFuelGal', e.target.value);
     }
 
     render() {
@@ -407,10 +407,11 @@ const mapStateToProps = state => ({
     fuelGal: state.results.fuelGal,
     maxFuel: state.results.maxFuel,
     maxFuelExt: state.results.maxFuelExt,
-    fuelState: state.results.fuelState
-})
+    fuelState: state.results.fuelState,
+    da: state.form.da,
+    instWt: state.form.instWt,
+    studWt: state.form.studWt,
+    aircraftID: state.form.aircraftID
+});
 
-export default connect(mapStateToProps, {
-    toggleExtOps,
-    setValue
-})(Results); 
+export default connect(mapStateToProps, {setValue})(Results); 

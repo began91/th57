@@ -1,20 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setValue } from '../actions/Actions';
 import './Form.css';
 import Instructor from './Instructor.js';
 import Aircraft from './Aircraft.js';
-import moment from 'moment';
 
 class InputItem extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {value: this.props.value};
-
         this.handleChange = this.handleChange.bind(this);
     }
 
 
     handleChange(e) {
-        this.setState({value: e.target.value});
+        this.props.setValue(this.props.id, e.target.value);
         //Event, wx, and date have no effect on calculations
         //need separate handling if change is made to DA. (affects TRQ only)
     }
@@ -23,7 +22,7 @@ class InputItem extends React.Component {
         return (
             <div className={this.props.id}>
                 <label htmlFor={this.props.id}>{this.props.label}:</label>
-                <input type="text" id={this.props.id} name={this.props.id} value={this.state.value} onChange={this.handleChange}/>
+                <input type="text" id={this.props.id} name={this.props.id} value={this.props[this.props.id]} onChange={this.handleChange}/>
             </div>
         );
     }
@@ -32,23 +31,19 @@ class InputItem extends React.Component {
 class InputNum extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {value: this.props.value};
-
         this.handleChange = this.handleChange.bind(this);
     }
 
 
     handleChange(e) {
-        this.setState({value: e.target.value});
-        //Event, wx, and date have no effect on calculations
-        //need separate handling if change is made to DA. (affects TRQ only)
+        this.props.setValue(this.props.id, e.target.value);
     }
 
     render() {
         return (
             <div className={this.props.id}>
                 <label htmlFor={this.props.id}>{this.props.label}:</label>
-                <input type="number" pattern="[0-9]*" id={this.props.id} name={this.props.id} value={this.state.value} onChange={this.handleChange}/>
+                <input type="number" pattern="[0-9]*" id={this.props.id} name={this.props.id} value={this.props[this.props.id]} onChange={this.handleChange}/>
             </div>
         );
     }
@@ -61,14 +56,14 @@ class InputDA extends React.Component {
     }
 
     handleChange(e) {
-        this.props.onChange('da',Number(e.target.value));
+        this.props.setValue('da',Number(e.target.value));
     }
 
     render() {
         return (
-            <div className={this.props.id}>
-                <label htmlFor={this.props.id}>{this.props.label}:</label>
-                <input type="number" pattern="[0-9]*" id={this.props.id} name={this.props.id} value={this.props.value} onChange={this.handleChange} />
+            <div className="maxDA">
+                <label htmlFor="maxDA">Max DA:</label>
+                <input type="number" pattern="[0-9]*" id="maxDA" name="maxDA" value={this.props.da} onChange={this.handleChange} />
             </div>
         );
     }
@@ -77,21 +72,17 @@ class InputDA extends React.Component {
 class Student extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            name: this.props.name
-        }
 
         this.handleWeightChange = this.handleWeightChange.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
     }
 
     handleWeightChange(e) {
-        this.props.onChange('studWt',Number(e.target.value));
+        this.props.setValue('studWt',Number(e.target.value));
     }
 
     handleNameChange(e) {
-        this.props.onChange('stud',e.target.value);
-        this.setState({name: e.target.value});
+        this.props.setValue('stud',e.target.value);
     }
 
     render() {
@@ -99,11 +90,11 @@ class Student extends React.Component {
             <div className="student">
                 <div className="student-name">
                     <label htmlFor="studentName">Stud<span className="shorten">ent</span>:</label>
-                    <input type="text" id="studentName" name="studentName" value={this.state.name} onChange={this.handleNameChange} />
+                    <input type="text" id="studentName" name="studentName" value={this.props.stud} onChange={this.handleNameChange} />
                 </div>
                 <div className="student-weight">
                 <label htmlFor="studentWeight">Weight:</label>
-                    <input type="number" pattern="[0-9]*" id="studentWeight" name="studentWeight" value={this.props.weight} onChange={this.handleWeightChange} /> 
+                    <input type="number" pattern="[0-9]*" id="studentWeight" name="studentWeight" value={this.props.studWt} onChange={this.handleWeightChange} /> 
                 </div>
             </div>
         );
@@ -111,54 +102,33 @@ class Student extends React.Component {
 }
 
 
-
-/*
-let eventName="C4001";
-let aircraft="123";
-let spot="H/S";
-let curwx="BKN008";
-let fcst="SKC";
-let studName="I.M. Stud";
-let studWt=195;
-let mxTmp=31;
-let pa=124;
-let da=1689;
-*/
+InputItem = connect(state => ({eventName: state.form.eventName, curwx: state.form.curwx, fcst: state.form.fcst, date: state.form.date}), {setValue})(InputItem);
+Student = connect(state => ({studWt: state.form.studWt, stud: state.form.stud}), {setValue})(Student);
+InputNum = connect(state => ({mxTmp: state.form.mxTmp, pa: state.form.pa}), {setValue})(InputNum);
+InputDA = connect(state => ({da: state.form.da}), {setValue})(InputDA);
 
 class Form extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            eventName: '',
-            curwx: '',
-            fcst: '',
-            studName: '',
-            mxTmp: '',
-            pa: '',
-            date: new moment().format('DDMMMYY')
-        }
-    }
-    
     render() {
         return (
             <div className="form">
                 <div className="left-header header">
-                    <InputItem label="Event" value={this.state.eventName} id="fltEvent"/>
-                    <Instructor weight={this.props.instWt} onChange={this.props.onStateChange} />
-                    <Aircraft aircraftID={this.props.aircraftID} onChange={this.props.onStateChange} />
-                    <InputItem label="Crnt Wx" value={this.state.curwx} id="curwx"/>
-                    <InputItem label="Fcst Wx" value={this.state.fcst} id="fcst"/>
+                    <InputItem label="Event" id="eventName"/>
+                    <Instructor />
+                    <Aircraft />
+                    <InputItem label="Crnt Wx" id="curwx"/>
+                    <InputItem label="Fcst Wx" id="fcst"/>
                 </div>
                 <div className="right-header header">
-                    <InputItem label="Date" value={this.state.date} id="date"/>
-                    <Student name={this.state.studName} weight={this.props.studWt} onChange={this.props.onStateChange} />
-                    <InputNum label="Max Tmp" value={this.state.mxTmp} id="mxTmp" />
-                    <InputNum label="Max PA" value={this.state.pa} id="pa"/>
-                    <InputDA label="Max DA" value={this.props.da} id="da" onChange={this.props.onStateChange}/>
+                    <InputItem label="Date" id="date"/>
+                    <Student />
+                    <InputNum label="Max Tmp" id="mxTmp"/>
+                    <InputNum label="Max PA" id="pa"/>
+                    <InputDA />
                 </div>
             </div>
         );
     }
 }
+
 
 export default Form;

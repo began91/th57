@@ -2,14 +2,14 @@ import {createStore} from 'redux';
 import rootReducer from './reducers.js'
 //redux-thunk?
 
-
+/*
 let initialState = {
 
-};
+};*/
 
 let store = createStore(
     rootReducer,
-    initialState,
+    //initialState,
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

@@ -1,12 +1,11 @@
 import React from 'react';
 import './Aircraft.css';
-import {aircraftList} from '../data/lists.js';
+import {aircraftList} from '../helpers/lists.js';
 
 class Aircraft extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            display: this.props.aircraft.display,
             spot: ''
         }
 
@@ -19,22 +18,17 @@ class Aircraft extends React.Component {
     }
 
     handleAircraftChange(e) {
-        this.setState({
-            display: e.target.value
-        });
-        this.props.onAircraftChange(JSON.parse(e.target.value));
-        //lookup aircraft number for weight and moment
-        //if no side number given, calculate heaviest/most fwd
+        this.props.onChange('aircraftID', e.target.value);
     }
     
     render() {
         return (
             <div className="aircraft">
                 <label htmlFor="aircraft">Aircraft:</label>
-                <select className="aircraft-selector" id="aircraft" value={this.state.display} onChange={this.handleAircraftChange}>
+                <select className="aircraft-selector" id="aircraft" value={this.props.aircraftID} onChange={this.handleAircraftChange}>
                     {aircraftList.map(aircraft => {
                         return (
-                        <option value={JSON.stringify(aircraft)} key={aircraft.id}>{aircraft.display}</option>
+                        <option value={aircraft.id} key={aircraft.id}>{aircraft.id}</option>
                         );
                     })}
                 </select>

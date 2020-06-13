@@ -1,37 +1,33 @@
 import React from 'react';
-//import logo from './logo.svg';
 import './App.css';
 import Form from './components/Form.js';
 import Results from './components/Results.js';
 import AircraftView from './components/AircraftView.js';
 import InstructorView from './components/InstructorView.js';
 
+//console.log(window.location.search);
+//console.log(new URLSearchParams(window.location.search))
+//console.log(parsePath(window.location.search));
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      instWt: 210,
+      instWt: '',
       studWt: '',
-      aircraft: {
-        side: 'N/A',
-        series: 'B',
-        weight: 0,
-        moment: 0,
-        display: 'N/A B',
-        id: 'N/AB'
-      },
+      aircraftID: 'unkB',
       da: '',
       view: 'WB'
     }
-    const fnsToBind=['onDAChange','onStudWtChange','onInstWtChange','onAircraftChange','handleViewChange'];
+    const fnsToBind=['onStudWtChange','onInstWtChange','onAircraftChange','handleViewChange','updatePermalink','handleStateChange'];
     fnsToBind.forEach(fn => {
         this[fn] = this[fn].bind(this);
       }
     )
   }
 
-  onDAChange(da) {
-    this.setState({da: da});
+  handleStateChange(key, value) {
+    this.setState({[key]: value});
   }
 
   onStudWtChange(weight) {
@@ -50,6 +46,22 @@ class App extends React.Component {
     this.setState({view: e.target.value});
   }
 
+  updatePermalink() {
+    let url = '?';
+    Object.entries(this.state).forEach(([key,value]) => {
+      url += (key + '=' + value + '&');
+    })
+    console.log(url);
+  }
+
+  componentDidMount() {
+    this.updatePermalink();
+  }
+
+  componentDidUpdate() {
+    this.updatePermalink();
+  }
+
   render() {
     return (
       <div className="App">
@@ -66,15 +78,17 @@ class App extends React.Component {
         </header>
         <div className="WB-view">
           <Form 
+          onStateChange={this.handleStateChange} 
           da={this.state.da} 
-          onDAChange={this.onDAChange} 
-          studWt={this.state.studWt} onStudWtChange={this.onStudWtChange} 
+          studWt={this.state.studWt}  
           instWt={this.state.instWt}
-          onInstWtChange={this.onInstWtChange}
-          aircraft={this.state.aircraft}
-          onAircraftChange={this.onAircraftChange} />
+          aircraftID={this.state.aircraftID} />
           
-          <Results da={this.state.da} crewFwd={this.state.studWt + this.state.instWt} aircraft={this.state.aircraft} />
+          <Results 
+          da={this.state.da} 
+          crewFwd={this.state.studWt + this.state.instWt} 
+          aircraftID={this.state.aircraftID} 
+          onStateChange={this.handleStateChange} />
         </div>
         <div className="change-display AC-view INST-view">
           <button className={this.state.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&amp;B</button>

@@ -1,6 +1,6 @@
 import React from 'react';
 import './AircraftView.css'
-import {aircraftList} from '../data/lists.js';
+import {aircraftList} from '../helpers/lists.js';
 
 function AircraftView() {
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import './Instructor.css';
-import {instructorList} from '../data/lists.js'
+import {instructorList} from '../helpers/lists.js'
 
 
 class Instructor extends React.Component {
@@ -23,23 +23,24 @@ class Instructor extends React.Component {
     }
 
     selectInstructor(e, instructor) {
-        console.log(instructor);
         this.setState({
             instructor,
             display: instructor.display
         });
-        this.props.onWtChange(instructor[this.state.vest]);
+        this.props.onChange('inst',instructor.display)
+        this.props.onChange('instWt',instructor[this.state.vest]);
     }
 
     handleVestChange(e) {
         this.setState({
             vest: e.target.value
         });
-        this.props.onWtChange(this.state.instructor[e.target.value])
+        this.props.onChange('vest',e.target.value)
+        this.props.onChange('instWt',this.state.instructor[e.target.value])
     }
 
     handleWeightChange(e) {
-        this.props.onWtChange(Number(e.target.value));
+        this.props.onChange('instWt',Number(e.target.value));
     }
 
     instructorFilter(instructor) {

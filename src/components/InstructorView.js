@@ -1,6 +1,6 @@
 import React from 'react';
 import './InstructorView.css';
-import {instructorList} from '../data/lists.js';
+import {instructorList} from '../helpers/lists.js';
 
 class InstructorView extends React.Component {
     constructor(props) {

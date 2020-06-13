@@ -1,5 +1,9 @@
 import React from 'react';
+//import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import { toggleExtOps, setValue } from '../actions/addActions';
 import './Results.css';
+import { getAcftById } from '../helpers/lists';
 
 let fuelMoment = fuel => {
     let cg=[110.3,110.7,110.8,110.8,110.8,110.8,110.9,111.5,112.8,113.8,114.6,115.3,115.9,116.4,116.9,117.2,117.6,117.9,118.0];
@@ -39,37 +43,24 @@ let cgHighLimit = (weight, series) => {
 class Results extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            fuelGal: 70,
-            fuelState: '70g',
-            otherFuel: 91,
-            extOps: false,
-            pax: '',
-            baggage: '',
-            paxExternal: '',
-            extLoad: 150,
-            extFuelGal: 50,
-            maxFuel: 0,
-            maxFuelExt: 0
-        }
 
         const fnsToBind = ['powerCalcs','handleFuelChange','handleOtherFuel','handleExtOps','handleInput','handleMaxExtFuel'];
         fnsToBind.forEach(fn => this[fn] = this[fn].bind(this));
     }
 
     powerCalcs() {
-        let pax = Number(this.state.pax);
-        let paxExternal = Number(this.state.paxExternal);
-        let extLoad = this.state.extLoad;
-        let extFuel = this.state.extFuelGal*6.7;
-        let baggage = Number(this.state.baggage);
-        let fuel = Math.round(this.state.fuelGal * 6.7 *10)/10;
+        let aircraft = getAcftById(this.props.aircraftID);
+        let pax = Number(this.props.pax);
+        let paxExternal = Number(this.props.paxExternal);
+        let extLoad = this.props.extLoad;
+        let extFuel = this.props.extFuelGal*6.7;
+        let baggage = Number(this.props.baggage);
+        let fuel = Math.round(this.props.fuelGal * 6.7 *10)/10;
         let crewFwd = Number(this.props.crewFwd);
-        let aircraft = this.props.aircraft;
         let da = this.props.da;
         let heavWt, fwdWt, basicMoment;
 
-        if (aircraft.side !== 'N/A') {
+        if (aircraft.side !== 'unk') {
             heavWt = aircraft.weight;
             fwdWt = aircraft.weight;
             basicMoment = aircraft.moment;
@@ -111,7 +102,7 @@ class Results extends React.Component {
 
         let highGW, maxTakeoffArm, heavier;
 
-        if (this.state.extOps) {
+        if (this.props.extOps) {
             highGW = heavGW > extGW ? heavGW : extGW;
             maxTakeoffArm = takeoffArm > extArm ? takeoffArm : extArm;
             heavier = heavGW > extGW ? '1' : '2';
@@ -140,8 +131,8 @@ class Results extends React.Component {
         let hige = Math.round(0.9055 * hoge - 1.8727);
 
         return {
-            pax, paxExternal, baggage, 
-            fuel, crewFwd, aircraft, da, heavWt, fwdWt, basicMoment, heavOpWt,
+            pax, paxExternal, baggage, aircraft,
+            fuel, crewFwd, da, heavWt, fwdWt, basicMoment, heavOpWt,
             fwdOpWt, opMoment, heavGW, fwdGW, takeoffMoment, takeoffArm, extGW,
             extMoment, extArm, lndWt, lndMoment, lndArm, highGW, cgLow, heavier,
             cgHighTakeoff, cgHighLand, paxArm, bagArm, fuelAt2900, maxTakeoffArm,
@@ -156,29 +147,28 @@ class Results extends React.Component {
         } else if (e.target.value==='65g') {
             fuelGal = 65;
         } else if (e.target.value==='__g') {
-            fuelGal = this.state.otherFuel;
-        } 
-        this.setState({fuelState: e.target.value, fuelGal: fuelGal});
+            fuelGal = this.props.otherFuel;
+        }
+        this.setValue('fuelState', e.target.value);
+        this.setValue('fuelGal',fuelGal); 
     }
 
     handleOtherFuel(e) {
-        this.setState({
-            otherFuel: e.target.value, 
-            fuelState: '__g',
-            fuelGal: e.target.value
-        });
+        this.props.setValue('otherFuel', e.target.value);
+        this.props.setValue('fuelState', '__g');
+        this.props.setValue('fuelGal', e.target.value);
     }
 
     handleExtOps(e) {
-        this.setState({extOps: e.target.checked});
+        this.props.toggleExtOps();
     }
 
     handleInput(e) {
-        this.setState({[e.target.className]: Number(e.target.value)});
+        this.props.setValue([e.target.className], Number(e.target.value));
     }
 
     handleMaxExtFuel(e) {
-        this.setState({extFuelGal: e.target.value});
+        this.setValue('extFuelGal', e.target.value);
     }
 
     render() {
@@ -187,15 +177,15 @@ class Results extends React.Component {
             <div className="results">
                 <table>
                     <style>
-                        {this.props.aircraft.side !== 'N/A' ? '.col2 {display:none;}' : ''}
-                        {this.state.extOps ? '' : '.ext {display:none;}'}
+                        {result.aircraft.side !== 'unk' ? '.col2 {display:none;}' : ''}
+                        {this.props.extOps ? '' : '.ext {display:none;}'}
                     </style>
                     <tbody>
                         <tr className="heading"></tr>
                     <tr>
                         <th></th>
-                        <th className="col2">Heavy {this.props.aircraft.series}</th>
-                        <th>{this.props.aircraft.side === 'N/A' ? 'FWD CG' : this.props.aircraft.display}</th>
+                        <th className="col2">Heavy {result.aircraft.series}</th>
+                        <th>{result.aircraft.side === 'N/A' ? 'FWD CG' : result.aircraft.id}</th>
                         <th>Moment</th>
                     </tr>
                     <tr>
@@ -236,20 +226,20 @@ class Results extends React.Component {
                             <div id="fuel-cell">
                                 <div id="fuel-head">
                                     <span>Fuel:</span>
-                                    <button id="max-fuel-button" onClick={this.handleOtherFuel} value={result.maxFuel}>Set Max</button>
+                                    <button id="max-fuel-button" className="otherFuel" onClick={this.handleOtherFuel} value={result.maxFuel}>Set Max</button>
                                 </div>
                                 <div id="fuel-container">
                                     <label className="fuel-radio" htmlFor="70g">
-                                        <input  type="radio" name="fuel" value="70g" id="70g" onChange={this.handleFuelChange} checked={this.state.fuelState==='70g'}/>
+                                        <input type="radio" name="fuel" value="70g" id="70g" onChange={this.handleFuelChange} checked={this.props.fuelState==='70g'}/>
                                         <span>70g</span>
                                     </label>
                                     <label className="fuel-radio" htmlFor="65g">
-                                        <input type="radio" name="fuel" value="65g" id="70g" onChange={this.handleFuelChange} checked={this.state.fuelState==='65g'}/>
+                                        <input type="radio" name="fuel" value="65g" id="70g" onChange={this.handleFuelChange} checked={this.props.fuelState==='65g'}/>
                                         <span>65g</span>
                                     </label>
                                     <label className="fuel-radio" htmlFor="__g">
-                                        <input type="radio" name="fuel" value="__g" id="__g" onChange={this.handleFuelChange} checked={this.state.fuelState==='__g'}/>
-                                        <input id="fuel-input" pattern="[0-9]*" type="number" name="otherFuel" value={this.state.otherFuel} onChange={this.handleOtherFuel}/>
+                                        <input type="radio" name="fuel" value="__g" id="__g" onChange={this.handleFuelChange} checked={this.props.fuelState==='__g'}/>
+                                        <input id="fuel-input" pattern="[0-9]*" type="number" name="otherFuel" className="otherFuel" value={this.props.otherFuel} onChange={this.handleOtherFuel}/>
                                     </label>
                                 </div>
                             </div>
@@ -260,14 +250,14 @@ class Results extends React.Component {
                     </tr>
                     <tr>
                         <th className="row-head">Crew Aft:</th>
-                        <td className="col2"><input type="number" pattern="[0-9]*" className="pax" value={this.state.pax} onChange={this.handleInput} /></td>
-                        <td><input type="number" pattern="[0-9]*" className="pax" value={this.state.pax} onChange={this.handleInput} /></td>
+                        <td className="col2"><input type="number" pattern="[0-9]*" className="pax" value={this.props.pax} onChange={this.handleInput} /></td>
+                        <td><input type="number" pattern="[0-9]*" className="pax" value={this.props.pax} onChange={this.handleInput} /></td>
                         <td>{Math.round(result.pax * result.paxArm*100)/100}</td>
                     </tr>
                     <tr>
                         <th className="row-head">Baggage:</th>
-                        <td className="col2"><input type="number" pattern="[0-9]*" className="baggage" value={this.state.baggage} onChange={this.handleInput} /></td>
-                        <td><input type="number" pattern="[0-9]*" className="baggage" value={this.state.baggage} onChange={this.handleInput} /></td>
+                        <td className="col2"><input type="number" pattern="[0-9]*" className="baggage" value={this.props.baggage} onChange={this.handleInput} /></td>
+                        <td><input type="number" pattern="[0-9]*" className="baggage" value={this.props.baggage} onChange={this.handleInput} /></td>
                         <td>{Math.round(result.baggage * result.bagArm *100)/100}</td>
                     </tr>
                     <tr>
@@ -279,7 +269,7 @@ class Results extends React.Component {
                     <tr>
                         <th colSpan="4" className="heading">
                             <label htmlFor="extOps">
-                                <input type="checkbox" id="extOps" onChange={this.handleExtOps} checked={this.state.extOps}/>
+                                <input type="checkbox" id="extOps" onChange={this.handleExtOps} checked={this.props.extOps}/>
                                 External OPS
                             </label>
                         </th>
@@ -291,7 +281,7 @@ class Results extends React.Component {
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr className="ext">
-                        <th className="row-head">Fuel:<input type="number" pattern="[0-9]*" className="extFuelGal" value={this.state.extFuelGal} onChange={this.handleInput} />
+                        <th className="row-head">Fuel:<input type="number" pattern="[0-9]*" className="extFuelGal" value={this.props.extFuelGal} onChange={this.handleInput} />
                         <button id="max-fuel-button-external" onClick={this.handleMaxExtFuel} value={result.maxFuelExt}>Set Max</button>
                         </th>
                         <td className="col2 gray"></td>
@@ -301,13 +291,13 @@ class Results extends React.Component {
                     <tr className="ext">
                         <th className="row-head">Crew Aft:</th>
                         <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="paxExternal" value={this.state.paxExternal} onChange={this.handleInput} /></td>
+                        <td><input type="number" pattern="[0-9]*" className="paxExternal" value={this.props.paxExternal} onChange={this.handleInput} /></td>
                         <td>{Math.round(result.paxExternal * result.paxArm *100)/100}</td>
                     </tr>
                     <tr className="ext">
                         <th className="row-head">Ext Load:</th>
                         <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="extLoad" value={this.state.extLoad} onChange={this.handleInput} /></td>
+                        <td><input type="number" pattern="[0-9]*" className="extLoad" value={this.props.extLoad} onChange={this.handleInput} /></td>
                         <td>{Math.round(result.extLoad * 1.071*100)/100}</td>
                     </tr>
                     <tr className="ext">
@@ -334,13 +324,13 @@ class Results extends React.Component {
                     <tr>
                         <th className="row-head">Crew Aft:</th>
                         <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="pax" value={this.state.pax} onChange={this.handleInput} /></td>
+                        <td><input type="number" pattern="[0-9]*" className="pax" value={this.props.pax} onChange={this.handleInput} /></td>
                         <td>{Math.round(result.pax * result.paxArm * 100)/100}</td>
                     </tr>
                     <tr>
                         <th className="row-head">Baggage:</th>
                         <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="baggage" value={this.state.baggage} onChange={this.handleInput} /></td>
+                        <td><input type="number" pattern="[0-9]*" className="baggage" value={this.props.baggage} onChange={this.handleInput} /></td>
                         <td>{Math.round(result.baggage * result.bagArm*100)/100}</td>
                     </tr>
                     <tr>
@@ -397,5 +387,30 @@ class Results extends React.Component {
         );
     }
 }
+/*
+Results.propTypes = {
+    addOne: PropTypes.func.isRequired,
+    fish: PropTypes.number,
+    extOps: PropTypes.bool.isRequired,
+    pax: PropTypes.number
+}
+*/
 
-export default Results;
+const mapStateToProps = state => ({
+    extOps: state.results.extOps,
+    pax: state.results.pax,
+    baggage: state.results.baggage,
+    paxExternal: state.results.paxExternal,
+    extFuelGal: state.results.extFuelGal,
+    extLoad: state.results.extLoad,
+    otherFuel: state.results.otherFuel,
+    fuelGal: state.results.fuelGal,
+    maxFuel: state.results.maxFuel,
+    maxFuelExt: state.results.maxFuelExt,
+    fuelState: state.results.fuelState
+})
+
+export default connect(mapStateToProps, {
+    toggleExtOps,
+    setValue
+})(Results); 

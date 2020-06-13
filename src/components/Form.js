@@ -61,7 +61,7 @@ class InputDA extends React.Component {
     }
 
     handleChange(e) {
-        this.props.onChange(Number(e.target.value));
+        this.props.onChange('da',Number(e.target.value));
     }
 
     render() {
@@ -86,11 +86,11 @@ class Student extends React.Component {
     }
 
     handleWeightChange(e) {
-        this.props.onWtChange(Number(e.target.value));
-        //this.setState({weight: Number(e.target.value)});
+        this.props.onChange('studWt',Number(e.target.value));
     }
 
     handleNameChange(e) {
+        this.props.onChange('stud',e.target.value);
         this.setState({name: e.target.value});
     }
 
@@ -135,7 +135,7 @@ class Form extends React.Component {
             studName: '',
             mxTmp: '',
             pa: '',
-            date: new moment().format('DD MMM YY')
+            date: new moment().format('DDMMMYY')
         }
     }
     
@@ -144,17 +144,17 @@ class Form extends React.Component {
             <div className="form">
                 <div className="left-header header">
                     <InputItem label="Event" value={this.state.eventName} id="fltEvent"/>
-                    <Instructor weight={this.props.instWt} onWtChange={this.props.onInstWtChange} />
-                    <Aircraft aircraft={this.props.aircraft} onAircraftChange={this.props.onAircraftChange} />
+                    <Instructor weight={this.props.instWt} onChange={this.props.onStateChange} />
+                    <Aircraft aircraftID={this.props.aircraftID} onChange={this.props.onStateChange} />
                     <InputItem label="Crnt Wx" value={this.state.curwx} id="curwx"/>
                     <InputItem label="Fcst Wx" value={this.state.fcst} id="fcst"/>
                 </div>
                 <div className="right-header header">
                     <InputItem label="Date" value={this.state.date} id="date"/>
-                    <Student name={this.state.studName} weight={this.props.studWt} onWtChange={this.props.onStudWtChange} />
+                    <Student name={this.state.studName} weight={this.props.studWt} onChange={this.props.onStateChange} />
                     <InputNum label="Max Tmp" value={this.state.mxTmp} id="mxTmp" />
                     <InputNum label="Max PA" value={this.state.pa} id="pa"/>
-                    <InputDA label="Max DA" value={this.props.da} id="da" onChange={this.props.onDAChange}/>
+                    <InputDA label="Max DA" value={this.props.da} id="da" onChange={this.props.onStateChange}/>
                 </div>
             </div>
         );

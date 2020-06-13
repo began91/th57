@@ -5,14 +5,13 @@ function acft(side, series, weight, moment) {
         weight,
         moment,
         arm: (Math.round(moment/weight*10000)/100).toFixed(2),
-        display: side + ' ' + series,
         id: side+series
     };
 }
 
 const aircraftList = [
-    acft('N/A','B', 0, 0),
-    acft('N/A','C', 0, 0),
+    acft('unk','B', 0, 0),
+    acft('unk','C', 0, 0),
     acft('050','C', 2160.3, 2561.0),
     acft('051','C', 2155.5, 2544.3),
     acft('056','C', 2115.1, 2511.8),
@@ -126,11 +125,11 @@ const aircraftList = [
     acft('188','B', 1983.8, 2359.3),
     acft('189','B', 1971.2, 2322.7),
     acft('190','B', 1963.8, 2326.2)
-
 ];
 
+const getAcftById = id => aircraftList.find(aircraft => aircraft.id === id);
+
 function inst8(name, weight) {
-    
     return {
         name,
         weight,
@@ -476,6 +475,7 @@ const instructorList = [
 
 export {
     aircraftList, 
+    getAcftById,
     instructorList,
     instList8,
     instList18,

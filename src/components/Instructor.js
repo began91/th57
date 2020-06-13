@@ -82,9 +82,9 @@ class Instructor extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    inst: state.form.inst,
-    instWt: state.form.instWt,
-    vest: state.form.vest
+    inst: state.app.inst,
+    instWt: state.app.instWt,
+    vest: state.app.vest
 })
 
 export default connect(mapStateToProps, {setValue})(Instructor);

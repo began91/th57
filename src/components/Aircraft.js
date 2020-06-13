@@ -39,8 +39,8 @@ class Aircraft extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    spot: state.form.spot,
-    aircraftID: state.form.aircraftID
+    spot: state.app.spot,
+    aircraftID: state.app.aircraftID
 })
 
 export default connect(mapStateToProps, {setValue})(Aircraft);

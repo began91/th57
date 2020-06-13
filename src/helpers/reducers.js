@@ -1,8 +1,11 @@
 import {combineReducers} from 'redux';
 import moment from 'moment';
 import { SET_VALUE, SET_URL } from '../actions/types';
+import permalink from './permalink'
 //get query parameters to set initial states!!!!
-let initialResultState = {
+
+let initialState = {
+    //results
     extOps: false,
     pax: '',
     baggage: '',
@@ -13,21 +16,8 @@ let initialResultState = {
     fuelGal: 70,
     maxFuel: 0,
     maxFuelExt: 0,
-    fuelState: '70g'
-}
-
-function resultsReducer(state=initialResultState,action) {
-    switch (action.type) {
-        case SET_VALUE:
-            return Object.assign({}, state, {
-                [action.key]: action.value
-            });
-        default:
-            return state;
-    }
-}
-//get query parameters to set initial states!!!!
-let initialFormState = {
+    fuelState: '70g',
+    //form
     eventName: '',
     inst: '',
     vest: 'wet',
@@ -41,25 +31,12 @@ let initialFormState = {
     studWt: '',
     mxTmp: '',
     pa: '',
-    da: ''
-}
-
-function formReducer(state=initialFormState,action) {
-    switch (action.type) {
-        case SET_VALUE:
-            return Object.assign({}, state, {
-                [action.key]: action.value
-            });
-        default:
-            return state;
-    }
-}
-
-let initialAppState = {
+    da: '',
+    //app
     view: 'WB'
 }
 
-function appReducer(state=initialAppState, action) {
+function appReducer(state=initialState, action) {
     switch (action.type) {
         case SET_VALUE:
             return Object.assign({}, state, {
@@ -80,8 +57,6 @@ function urlReducer(state='', action) {
 }
 
 export default combineReducers({
-    results: resultsReducer,
-    form: formReducer,
     app: appReducer,
     url: urlReducer
 });

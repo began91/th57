@@ -29,19 +29,9 @@ class App extends React.Component {
 
   updatePermalink() {
     let url = window.location.origin + '/th57?';
-    console.log(this.props.results);
-    console.log(this.props.form);
-    console.log(this.props.app);
-    Object.entries(this.props.form).forEach(([key,value]) => {
-      url += (key + '=' + value + '&');
-    })
-    Object.entries(this.props.results).forEach(([key,value]) => {
-      url += (key + '=' + value + '&');
-    })
     Object.entries(this.props.app).forEach(([key,value]) => {
       url += (key + '=' + value + '&');
-    })
-    console.log(url)
+    });
     this.props.setURL(url);
     //window.location.search = url;
   }

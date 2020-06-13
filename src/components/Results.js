@@ -397,21 +397,21 @@ Results.propTypes = {
 */
 
 const mapStateToProps = state => ({
-    extOps: state.results.extOps,
-    pax: state.results.pax,
-    baggage: state.results.baggage,
-    paxExternal: state.results.paxExternal,
-    extFuelGal: state.results.extFuelGal,
-    extLoad: state.results.extLoad,
-    otherFuel: state.results.otherFuel,
-    fuelGal: state.results.fuelGal,
-    maxFuel: state.results.maxFuel,
-    maxFuelExt: state.results.maxFuelExt,
-    fuelState: state.results.fuelState,
-    da: state.form.da,
-    instWt: state.form.instWt,
-    studWt: state.form.studWt,
-    aircraftID: state.form.aircraftID
+    extOps: state.app.extOps,
+    pax: state.app.pax,
+    baggage: state.app.baggage,
+    paxExternal: state.app.paxExternal,
+    extFuelGal: state.app.extFuelGal,
+    extLoad: state.app.extLoad,
+    otherFuel: state.app.otherFuel,
+    fuelGal: state.app.fuelGal,
+    maxFuel: state.app.maxFuel,
+    maxFuelExt: state.app.maxFuelExt,
+    fuelState: state.app.fuelState,
+    da: state.app.da,
+    instWt: state.app.instWt,
+    studWt: state.app.studWt,
+    aircraftID: state.app.aircraftID
 });
 
 export default connect(mapStateToProps, {setValue})(Results); 

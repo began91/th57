@@ -102,10 +102,10 @@ class Student extends React.Component {
 }
 
 
-InputItem = connect(state => ({eventName: state.form.eventName, curwx: state.form.curwx, fcst: state.form.fcst, date: state.form.date}), {setValue})(InputItem);
-Student = connect(state => ({studWt: state.form.studWt, stud: state.form.stud}), {setValue})(Student);
-InputNum = connect(state => ({mxTmp: state.form.mxTmp, pa: state.form.pa}), {setValue})(InputNum);
-InputDA = connect(state => ({da: state.form.da}), {setValue})(InputDA);
+InputItem = connect(state => ({eventName: state.app.eventName, curwx: state.app.curwx, fcst: state.app.fcst, date: state.app.date}), {setValue})(InputItem);
+Student = connect(state => ({studWt: state.app.studWt, stud: state.app.stud}), {setValue})(Student);
+InputNum = connect(state => ({mxTmp: state.app.mxTmp, pa: state.app.pa}), {setValue})(InputNum);
+InputDA = connect(state => ({da: state.app.da}), {setValue})(InputDA);
 
 class Form extends React.Component {
     render() {

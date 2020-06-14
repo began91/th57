@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
-import { SET_VALUE, SET_URL } from '../actions/types';
-import {initialState} from './initialState';
+import { SET_VALUE, SET_URL, RESET_STATE } from '../actions/types';
+import {initialState, presets} from './initialState';
 
 
 function appReducer(state=initialState, action) {
@@ -9,6 +9,8 @@ function appReducer(state=initialState, action) {
             return Object.assign({}, state, {
                 [action.key]: action.value,
             });
+        case RESET_STATE:
+            return presets;
         default:
             return state;
     }

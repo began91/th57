@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setValue, setURL } from './actions/Actions';
+import { setValue, setURL, resetState } from './actions/Actions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './App.css';
 import Form from './components/Form.js';
@@ -17,7 +17,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    const fnsToBind=['handleViewChange','updatePermalink'];
+    const fnsToBind=['handleViewChange','updatePermalink','resetForm'];
     fnsToBind.forEach(fn => {
         this[fn] = this[fn].bind(this);
       }
@@ -38,6 +38,10 @@ class App extends React.Component {
     });
     this.props.setURL(url);
     window.history.pushState(this.props.app,this.props.app.stud + ' ' +this.props.app.inst, url);
+  }
+
+  resetForm(e) {
+    this.props.resetState();
   }
 
   componentDidMount() {
@@ -84,10 +88,13 @@ class App extends React.Component {
           <button className={this.props.app.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
           <button className={this.props.app.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
         </div>
+        <br/>
         <CopyToClipboard className="permalink" text={this.props.url}>
           <button>Copy Permalink</button>
-        </CopyToClipboard>  
-          <p>{this.props.url}</p>
+        </CopyToClipboard> 
+        <br/>
+        <br/>
+        <button onClick={this.resetForm}>Reset Form</button>
         <footer>
           <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:began91@yahoo.com?subject=TH-57 Weight and Balance Notification&amp;body=Please note the following discrepancy, bug, or feature request:">began91@yahoo.com</a>.</p>
           <p>&copy; 2020</p>
@@ -97,4 +104,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(state => state, {setValue, setURL})(App);
+export default connect(state => state, {setValue, setURL, resetState})(App);

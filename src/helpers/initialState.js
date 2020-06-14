@@ -36,12 +36,11 @@ const presets = {
 let initialState = {...presets};
 
 //get query params
-let urlParams = new URLSearchParams(window.location.search);
+let urlParams = new URLSearchParams(decodeURI(window.location.search));
 
 //update initial state
 urlParams.forEach((value, key) => {
     initialState[key] = value;
 });
-
 
 export { presets, initialState };

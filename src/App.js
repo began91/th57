@@ -36,6 +36,7 @@ class App extends React.Component {
         url += (key + '=' + value + '&');
       }
     });
+    url = encodeURI(url);
     this.props.setURL(url);
     window.history.pushState(this.props.app,this.props.app.stud + ' ' +this.props.app.inst, url);
   }

@@ -97,7 +97,7 @@ class App extends React.Component {
         <br/>
         <button onClick={this.resetForm}>Reset Form</button>
         <footer>
-          <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:began91@yahoo.com?subject=TH-57 Weight and Balance Notification&amp;body=Please note the following discrepancy, bug, or feature request:">began91@yahoo.com</a>.</p>
+          <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:admin@th57.us?subject=TH-57 Weight and Balance Notification&amp;body=Please note the following discrepancy, bug, or feature request:">admin@th57.us</a>.</p>
           <p>&copy; 2020</p>
         </footer>
       </div>

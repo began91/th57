@@ -61,9 +61,9 @@ class InputDA extends React.Component {
 
     render() {
         return (
-            <div className="maxDA">
-                <label htmlFor="maxDA">Max DA:</label>
-                <input type="number" pattern="[0-9]*" id="maxDA" name="maxDA" value={this.props.da} onChange={this.handleChange} />
+            <div className="da">
+                <label htmlFor="da">Max DA:</label>
+                <input type="number" pattern="[0-9]*" id="da" name="da" value={this.props.da} onChange={this.handleChange} />
             </div>
         );
     }

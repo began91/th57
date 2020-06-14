@@ -8,7 +8,7 @@
     text-align: end;
 }
 
-#side, #studentWeight, #mxTmp, #pa, #da, #fltEvent {
+#side, #studentWeight, #mxTmp, #pa, #da, #eventName {
     width: 44px;
 }
 

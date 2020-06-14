@@ -11,7 +11,7 @@ function setValue(key, value) {
 function setURL(url) {
     return {
         type: SET_URL,
-        url: url
+        url
     }
 }
 

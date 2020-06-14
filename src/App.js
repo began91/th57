@@ -7,6 +7,7 @@ import Form from './components/Form.js';
 import Results from './components/Results.js';
 import AircraftView from './components/AircraftView.js';
 import InstructorView from './components/InstructorView.js';
+import { presets } from './helpers/initialState';
 
 //console.log(window.location.search);
 //console.log(new URLSearchParams(window.location.search))
@@ -28,19 +29,24 @@ class App extends React.Component {
   }
 
   updatePermalink() {
+    //console.log('updating permalink')
     let url = window.location.origin + '/th57?';
     Object.entries(this.props.app).forEach(([key,value]) => {
-      url += (key + '=' + value + '&');
+      if (presets[key] !== value) {
+        url += (key + '=' + value + '&');
+      }
     });
     this.props.setURL(url);
-    //window.location.search = url;
+    window.history.pushState(this.props.app,this.props.app.stud + ' ' +this.props.app.inst, url);
   }
 
   componentDidMount() {
     this.updatePermalink();
+    //console.log('mount');
   }
-
+  
   componentDidUpdate() {
+    //console.log('update');
     this.updatePermalink();
   }
 

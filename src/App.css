@@ -77,3 +77,7 @@ footer p {
   border-style: inset;
   font-weight: bold;
 }
+
+.url {
+  display: none;
+}

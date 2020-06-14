@@ -94,7 +94,7 @@ class App extends React.Component {
           <button>Copy Permalink</button>
         </CopyToClipboard> 
         <br/>
-        {this.props.url}
+        <div className="url">{this.props.url}</div>
         <br/>
         <button onClick={this.resetForm}>Reset Form</button>
         <footer>

@@ -30,7 +30,7 @@ class App extends React.Component {
 
   updatePermalink() {
     //console.log('updating permalink')
-    let url = window.location.origin + '/th57?';
+    let url = window.location.origin + '?';
     Object.entries(this.props.app).forEach(([key,value]) => {
       if (presets[key] !== value) {
         url += (key + '=' + value + '&');

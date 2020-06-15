@@ -22,7 +22,17 @@ tr.no-borders th, tr.no-borders td {
 
 tr.no-borders td {
     border-bottom: 2px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
     text-align: auto;
+}
+
+tr.no-borders td.light-underline {
+    border-bottom: 1px solid gray;
+}
+
+tr.no-borders td.heavy-top {
+    border-top: 2px solid black;
 }
 
 .heading {
@@ -57,6 +67,7 @@ tr.no-borders td {
 
 .fuel-radio {
     display: block;
+    min-width: 57px;
 }
 
 label.fuel-radio span {

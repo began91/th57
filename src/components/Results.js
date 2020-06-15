@@ -3,12 +3,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { setValue } from '../actions/Actions';
 import './Results.css';
-import { getAcftById } from '../helpers/lists';
+import { getAcftById, getHeaviestAndMostForward } from '../helpers/lists';
 
 let fuelMoment = fuel => {
     let cg=[110.3,110.7,110.8,110.8,110.8,110.8,110.9,111.5,112.8,113.8,114.6,115.3,115.9,116.4,116.9,117.2,117.6,117.9,118.0];
     let moment;
-    if (fuel>=90*6.7) {
+    if (fuel>90*6.7) {
         return Math.round(fuel*118.0)/100;
     }
     if (fuel<=5*6.7) {
@@ -64,14 +64,8 @@ class Results extends React.Component {
             heavWt = aircraft.weight;
             fwdWt = aircraft.weight;
             basicMoment = aircraft.moment;
-        } else if (aircraft.series === 'C') {
-            heavWt = 2179.9;
-            fwdWt = 2153.4;
-            basicMoment = 2484.0;
         } else {
-            heavWt = 2007.7;
-            fwdWt = 1961.1;
-            basicMoment = 2286.3;
+            [heavWt, fwdWt, basicMoment] = getHeaviestAndMostForward(aircraft.series)
         }
         
         let paxArm = 1.04;
@@ -346,35 +340,37 @@ class Results extends React.Component {
                     <tbody>
                     <tr className="no-borders">
                         <th className="row-head">T/O GW: ({result.heavier})</th>
-                        <td colSpan="0" className={result.highGW > 3200 ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.highGW.toFixed(1)}</td>
+                        <td colSpan="0" className={(result.highGW > 3200 ? 'err' : 'good')+ ' light-underline heavy-top'}><span role="img" aria-label="warning">⚠️</span>{result.highGW.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">CG Range:</th>
-                        <td colSpan="0">{result.cgLow} - {result.cgHighTakeoff.toFixed(1)}</td>
+                        <td colSpan="0" className="light-underline">{result.cgLow} - {result.cgHighTakeoff.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">T/O CG:</th>
                         <td colSpan="0" className={(result.maxTakeoffArm > result.cgHighTakeoff || result.maxTakeoffArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.maxTakeoffArm.toFixed(1)}</td>
                     </tr>
+                    <br/>
                     <tr className="no-borders">
                         <th className="row-head">Lnd GW: (3)</th>
-                        <td colSpan="0" className={result.lndWt > 3200 ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.lndWt.toFixed(1)}</td>
+                        <td colSpan="0" className={(result.lndWt > 3200 ? 'err' : 'good')+ ' light-underline heavy-top'}><span role="img" aria-label="warning">⚠️</span>{result.lndWt.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">CG Range:</th>
-                        <td colSpan="0" >{result.cgLow} - {result.cgHighLand.toFixed(1)}</td>
+                        <td colSpan="0" className="light-underline">{result.cgLow} - {result.cgHighLand.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">Lnd CG:</th>
                         <td colSpan="0" className={(result.lndArm > result.cgHighLand || result.lndArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.lndArm.toFixed(1)}</td>
                     </tr>
+                    <br/>
                     <tr className="no-borders">
                         <th className="row-head"><div id="torque-i">
                         HIGE/HOGE:
                             &#x24D8;
                             <span id="torque-info">Torque values are derived from quadratic regression of NATOPS chart. Error when compared to user chart interpretation is average 0.25% Q. (stdDev 0.75% Q)</span>
                         </div></th>
-                        <td colSpan="0" className={'good'+((result.hige >= 85 && result.hige < 100) ? 'caution' : '') + (result.hige >= 100 ? 'err' : '')}><span role="img" aria-label="warning">⚠️</span>{result.hige} / {result.hoge}
+                        <td colSpan="0" className={'heavy-top light-underline good'+((result.hige >= 85 && result.hige < 100) ? 'caution' : '') + (result.hige >= 100 ? 'err' : '')}><span role="img" aria-label="warning">⚠️</span>{result.hige} / {result.hoge}
                         </td>
                     </tr>
                     <tr className="no-borders">

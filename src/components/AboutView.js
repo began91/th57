@@ -36,7 +36,10 @@ function AboutView() {
             <p>Check the External OPS checkbox to bring up the external ops section and include it in the overall calculations. Set the expected fuel load at the time of the first pick, the weight of the crewman, and the weight of the load. The set max button will calculate the maximum fuel load you may take to remain below 3350 lbs with the load and 3200 lbs without the load.</p>
             <h3>Results Table</h3>
             <p>The results table is color coded to quickly see all parameters in limits or any problem areas. When out of limits, the field will become red and a yellow caution emoji will be displayed. The HIGE/HOGE field will turn yellow when HIGE is above 85% Q and red when HIGE is above 100% Q.</p>
-
+            <h3>Copy Permalink</h3>
+            <p>The permalink will automatically copy the current url to your clipboard to be shared. The url encodes information to display the same form on another device.</p>
+            <h3>Reset Form</h3>
+            <p>The reset button will clear out all form values. This can be undone by hitting the back button in your browser and refreshing the page with a fully encoded url.</p>
         </div>
     );
 }

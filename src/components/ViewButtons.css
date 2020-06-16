@@ -9,4 +9,5 @@ div.change-display button.selected {
     background-color: skyblue;
     border-bottom: 2px solid skyblue;
     color: black;
+    font-weight: bold;
 }

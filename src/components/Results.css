@@ -79,7 +79,7 @@ tr.no-borders td.heavy-top {
 .ext-ops-fuel {
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: flex-end;
 }
 
 .fuel-radio {

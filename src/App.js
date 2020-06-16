@@ -8,6 +8,7 @@ import Results from './components/Results';
 import AircraftView from './components/AircraftView';
 import InstructorView from './components/InstructorView';
 import ViewButtons from './components/ViewButtons';
+import ScrollingWrapper from './components/ScrollingWrapper';
 import { presets } from './helpers/initialState';
 
 //console.log(window.location.search);
@@ -85,19 +86,16 @@ class App extends React.Component {
         <div className="INST-view">
           <InstructorView />
         </div>
-        
-        <br/>
-        <CopyToClipboard className="permalink" text={this.props.url}>
+        <CopyToClipboard className="permalink App-button" text={this.props.url}>
           <button>Copy Permalink</button>
         </CopyToClipboard> 
-        <br/>
-        <div className="url">{this.props.url}</div>
-        <br/>
-        <button onClick={this.resetForm}>Reset Form</button>
+
+        <button className="App-button" onClick={this.resetForm}>Reset Form</button>
         <footer>
           <p>Not currently an approved source of weight and balance for TW-5 TH-57 aircrews. Report any discrepancies, bugs, or feature requests to <a href="mailto:admin@th57.us?subject=TH-57 Weight and Balance Notification&amp;body=Please note the following discrepancy, bug, or feature request:">admin@th57.us</a>.</p>
           <p>&copy; 2020</p>
         </footer>
+        <ScrollingWrapper/>
       </div>
     );
   }

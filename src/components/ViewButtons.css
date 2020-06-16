@@ -1,6 +1,7 @@
 div.change-display button {
     background-color: #282c34;
-    width: 32%;
+    width: 200px;
+    max-width: 32%;
     color: #dadada;
 }
 

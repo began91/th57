@@ -1,5 +1,23 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.AC-view, .INST-view, .WB-view {
+  width: 100%;
+  max-width: 650px;
+  border-radius: 20px;
+  background-color: skyblue;
+}
+
+@media only screen and (max-width: 650px) {
+  .AC-view, .INST-view, .WB-view {
+    width: 100%;
+    max-width: 650px;
+    border-radius: 5px;
+  }
 }
 
 .logo-holder {
@@ -50,6 +68,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
   cursor: pointer;
+  width: 100%
 }
 
 .App-header span {
@@ -61,6 +80,10 @@
   color: #61dafb;
 }
 
+.App-button {
+  margin: 10px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -68,10 +91,6 @@
   to {
     transform: rotate(-360deg);
   }
-}
-
-.AC-view, .INST-view {
-  background-color: skyblue;
 }
 
 footer p {

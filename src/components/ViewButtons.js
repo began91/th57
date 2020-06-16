@@ -20,6 +20,7 @@ class ViewButtons extends React.Component {
                 <button className={this.props.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&amp;B</button>
                 <button className={this.props.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
                 <button className={this.props.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
+                <button className={this.props.view === "ABOUT" ? 'selected' : ''} value="ABOUT" onClick={this.handleViewChange}>How To Use</button>
             </div>
         );
     }

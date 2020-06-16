@@ -6,6 +6,7 @@ import './App.css';
 import Form from './components/Form';
 import Results from './components/Results';
 import AircraftView from './components/AircraftView';
+import AboutView from './components/AboutView';
 import InstructorView from './components/InstructorView';
 import ViewButtons from './components/ViewButtons';
 import ScrollingWrapper from './components/ScrollingWrapper';
@@ -65,7 +66,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <style>
-          {'.WB-view, .AC-view, .INST-view {display:none;}'}
+          {'.WB-view, .AC-view, .INST-view, .ABOUT-view {display:none;}'}
           {'.'+this.props.app.view + '-view {display:block;}'}
         </style>
         <header className="App-header" onClick={this.setViewWB}>
@@ -85,6 +86,9 @@ class App extends React.Component {
         </div>
         <div className="INST-view">
           <InstructorView />
+        </div>
+        <div className="ABOUT-view">
+          <AboutView />
         </div>
         <CopyToClipboard className="permalink App-button" text={this.props.url}>
           <button>Copy Permalink</button>

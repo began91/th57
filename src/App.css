@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-.AC-view, .INST-view, .WB-view {
+.AC-view, .INST-view, .WB-view, .ABOUT-view {
   width: 100%;
   max-width: 650px;
   border-radius: 20px;
@@ -13,7 +13,7 @@
 }
 
 @media only screen and (max-width: 650px) {
-  .AC-view, .INST-view, .WB-view {
+  .AC-view, .INST-view, .WB-view, .ABOUT-view {
     width: 100%;
     max-width: 650px;
     border-radius: 5px;

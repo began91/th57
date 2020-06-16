@@ -109,7 +109,7 @@ class Results extends React.Component {
         let cgLow = aircraft.series==='B' ? '106.00' : '106.75';
         let cgHighTakeoff = cgHighLimit(highGW, aircraft.series);
         let cgHighLand = cgHighLimit(lndWt, aircraft.series);
-        let fuelAt2900 = Math.round((2900 - heavGW + fuel) / 6.7);
+        let fuelAt2900 = Math.round((2900 - heavGW + fuel + pax + baggage) / 6.7);
         //HIGE/HOGE Derivation
         //HOGE = (ma*GW+ba)*DA^2 + (mb*GW+bb)*DA + (mc*GW+bc)
         let ma = 0.921;

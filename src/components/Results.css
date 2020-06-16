@@ -7,7 +7,7 @@
 table {
     max-width: 500px;
     border-collapse: collapse;
-    margin: 5px 5px;
+    margin: 5px 5px 15px 5px;
     background-color: white;
 }
 
@@ -67,12 +67,19 @@ tr.no-borders td.heavy-top {
 }
 
 #max-fuel-button-external {
-    display: block;
+    display: inline-block;
+    width: 70px;
 }
 
 #fuel-head {
     display: inline-flex;
     flex-direction: column;
+}
+
+.ext-ops-fuel {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
 }
 
 .fuel-radio {

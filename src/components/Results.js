@@ -275,8 +275,13 @@ class Results extends React.Component {
                         <td>{result.opMoment.toFixed(2)}</td>
                     </tr>
                     <tr className="ext">
-                        <th className="row-head">Fuel:<input type="number" pattern="[0-9]*" className="extFuelGal" value={this.props.extFuelGal} onChange={this.handleInput} />
+                        <th className="row-head">
+                        <div className="ext-ops-fuel">
+                        <div>
+                            Fuel:<input type="number" pattern="[0-9]*" className="extFuelGal" value={this.props.extFuelGal} onChange={this.handleInput} />
+                        </div>
                         <button id="max-fuel-button-external" onClick={this.handleMaxExtFuel} value={result.maxFuelExt}>Set Max</button>
+                        </div>
                         </th>
                         <td className="col2 gray"></td>
                         <td>{Math.round(result.extFuel*10)/10}</td>

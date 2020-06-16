@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setValue, setURL, resetState } from './actions/Actions';
+import { setValue, resetState } from './actions/Actions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './App.css';
 import Form from './components/Form';
@@ -44,7 +44,7 @@ class App extends React.Component {
       }
     });
     url = encodeURI(url);
-    this.props.setURL(url);
+    //this.props.setURL(url);
     window.history.pushState(this.props.app,this.props.app.stud + ' ' +this.props.app.inst, url);
   }
 
@@ -52,17 +52,8 @@ class App extends React.Component {
     this.props.resetState();
   }
 
-  componentDidMount() {
-    this.updatePermalink();
-    //console.log('mount');
-  }
-  
-  componentDidUpdate() {
-    //console.log('update');
-    this.updatePermalink();
-  }
-
   render() {
+    this.updatePermalink();
     return (
       <div className="App">
         <style>
@@ -90,7 +81,7 @@ class App extends React.Component {
         <div className="ABOUT-view">
           <AboutView />
         </div>
-        <CopyToClipboard className="permalink App-button" text={this.props.url}>
+        <CopyToClipboard className="permalink App-button" text={window.location.href}>
           <button>Copy Permalink</button>
         </CopyToClipboard> 
 
@@ -105,4 +96,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(state => state, {setValue, setURL, resetState})(App);
+export default connect(state => state, {setValue, resetState})(App);

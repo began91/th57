@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import { SET_VALUE, SET_URL, RESET_STATE } from '../actions/types';
+import { SET_VALUE, RESET_STATE } from '../actions/types';
 import {initialState, presets} from './initialState';
 
 
@@ -16,16 +16,6 @@ function appReducer(state=initialState, action) {
     }
 }
 
-function urlReducer(state='', action) {
-    switch (action.type) {
-        case SET_URL:
-            return action.url;
-        default:
-            return state;
-    }
-}
-
 export default combineReducers({
-    app: appReducer,
-    url: urlReducer
+    app: appReducer
 });

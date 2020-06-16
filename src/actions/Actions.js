@@ -1,4 +1,4 @@
-import { SET_VALUE, SET_URL, RESET_STATE } from './types';
+import { SET_VALUE, RESET_STATE } from './types';
 
 function setValue(key, value) {
     return {
@@ -8,17 +8,10 @@ function setValue(key, value) {
     }
 }
 
-function setURL(url) {
-    return {
-        type: SET_URL,
-        url
-    }
-}
-
 function resetState() {
     return {
         type: RESET_STATE
     }
 }
 
-export {setValue, setURL, resetState};
+export {setValue, resetState};

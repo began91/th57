@@ -87,7 +87,10 @@ class Results extends React.Component {
         let extGW = Math.round((fwdOpWt + extFuel + paxExternal + extLoad)*10)/10;
         let extMoment = Math.round((opMoment + fuelMoment(extFuel) + paxExternal * paxArm + extLoad*1.071)*100)/100;
         let extArm = Math.round(extMoment / extGW * 1000)/10;
-        let maxFuelExt = Math.min(Math.floor((3200 - fwdOpWt - paxExternal - extLoad) / 6.7), 91);
+        let maxFuelExt = Math.min(
+            Math.floor((3350 - fwdOpWt - paxExternal - extLoad) / 6.7), 
+            Math.floor((3200 - fwdOpWt - paxExternal) / 6.7 ),
+            91);
 
         //Landing Weight/Moment
         let lndWt = fwdOpWt + 67 + pax + baggage;
@@ -345,7 +348,7 @@ class Results extends React.Component {
                     <tbody className="second-table">
                     <tr className="no-borders">
                         <th className="row-head">T/O GW: ({result.heavier})</th>
-                        <td colSpan="0" className={(result.highGW > 3200 ? 'err' : 'good')+ ' light-underline heavy-top'}><span role="img" aria-label="warning">⚠️</span>{result.highGW.toFixed(1)}</td>
+                        <td colSpan="0" className={(((result.highGW > 3200 && !this.props.extOps) || result.highGW > 3350) ? 'err' : 'good')+ ' light-underline heavy-top'}><span role="img" aria-label="warning">⚠️</span>{result.highGW.toFixed(1)}</td>
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">CG Range:</th>

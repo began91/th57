@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import { setValue, setURL, resetState } from './actions/Actions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './App.css';
-import Form from './components/Form.js';
-import Results from './components/Results.js';
-import AircraftView from './components/AircraftView.js';
-import InstructorView from './components/InstructorView.js';
+import Form from './components/Form';
+import Results from './components/Results';
+import AircraftView from './components/AircraftView';
+import InstructorView from './components/InstructorView';
+import ViewButtons from './components/ViewButtons';
 import { presets } from './helpers/initialState';
 
 //console.log(window.location.search);
@@ -17,7 +18,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    const fnsToBind=['handleViewChange','updatePermalink','resetForm'];
+    const fnsToBind=['handleViewChange','updatePermalink','resetForm','setViewWB'];
     fnsToBind.forEach(fn => {
         this[fn] = this[fn].bind(this);
       }
@@ -26,6 +27,10 @@ class App extends React.Component {
 
   handleViewChange(e) {
     this.props.setValue('view', e.target.value);
+  }
+
+  setViewWB(e) {
+    this.props.setValue('view', 'WB');
   }
 
   updatePermalink() {
@@ -62,21 +67,17 @@ class App extends React.Component {
           {'.WB-view, .AC-view, .INST-view {display:none;}'}
           {'.'+this.props.app.view + '-view {display:block;}'}
         </style>
-        <header className="App-header">
+        <header className="App-header" onClick={this.setViewWB}>
           <div className="logo-holder">
             <img src={require('./images/helo.png')} alt="" className="helo" />
             <img src={require('./images/rotor.png')} alt="" className="rotor App-logo" />
           </div>
           <span>TH-57 Weight and Balance</span>
         </header>
+        <ViewButtons/>
         <div className="WB-view">
           <Form/>
           <Results/>
-        </div>
-        <div className="change-display AC-view INST-view">
-          <button className={this.props.app.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&amp;B</button>
-          <button className={this.props.app.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
-          <button className={this.props.app.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
         </div>
         <div className="AC-view">
           <AircraftView />
@@ -84,11 +85,7 @@ class App extends React.Component {
         <div className="INST-view">
           <InstructorView />
         </div>
-        <div className="change-display">
-          <button className={this.props.app.view === "WB" ? 'selected' : ''} value="WB" onClick={this.handleViewChange}>W&amp;B</button>
-          <button className={this.props.app.view === "AC" ? 'selected' : ''} value="AC" onClick={this.handleViewChange}>A/C List</button>
-          <button className={this.props.app.view === "INST" ? 'selected' : ''} value="INST" onClick={this.handleViewChange}>Inst List</button>
-        </div>
+        
         <br/>
         <CopyToClipboard className="permalink" text={this.props.url}>
           <button>Copy Permalink</button>

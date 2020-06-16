@@ -327,17 +327,17 @@ class Results extends React.Component {
                         <td><input type="number" pattern="[0-9]*" className="baggage" value={this.props.baggage} onChange={this.handleInput} /></td>
                         <td>{Math.round(result.baggage * result.bagArm*100)/100}</td>
                     </tr>
-                    <tr>
+                    <tr className="bottom-row">
                         <th className="row-head">Gross Wt(3):</th>
                         <td className="col2 gray"></td>
                         <td>{result.lndWt.toFixed(1)}</td>
                         <td>{result.lndMoment.toFixed(2)} ({result.lndArm.toFixed(1)})</td>
                     </tr>
-                    <tr className="heading"></tr>
+                    <tr className="heading bottom-row"></tr>
                     </tbody>
                     </table>
                     <table>
-                    <tbody>
+                    <tbody className="second-table">
                     <tr className="no-borders">
                         <th className="row-head">T/O GW: ({result.heavier})</th>
                         <td colSpan="0" className={(result.highGW > 3200 ? 'err' : 'good')+ ' light-underline heavy-top'}><span role="img" aria-label="warning">⚠️</span>{result.highGW.toFixed(1)}</td>
@@ -350,7 +350,7 @@ class Results extends React.Component {
                         <th className="row-head">T/O CG:</th>
                         <td colSpan="0" className={(result.maxTakeoffArm > result.cgHighTakeoff || result.maxTakeoffArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.maxTakeoffArm.toFixed(1)}</td>
                     </tr>
-                    <br/>
+                    <tr className="no-borders"><th colSpan="2"><br/></th></tr>
                     <tr className="no-borders">
                         <th className="row-head">Lnd GW: (3)</th>
                         <td colSpan="0" className={(result.lndWt > 3200 ? 'err' : 'good')+ ' light-underline heavy-top'}><span role="img" aria-label="warning">⚠️</span>{result.lndWt.toFixed(1)}</td>
@@ -363,7 +363,7 @@ class Results extends React.Component {
                         <th className="row-head">Lnd CG:</th>
                         <td colSpan="0" className={(result.lndArm > result.cgHighLand || result.lndArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.lndArm.toFixed(1)}</td>
                     </tr>
-                    <br/>
+                    <tr className="no-borders"><th colSpan="2"><br/></th></tr>
                     <tr className="no-borders">
                         <th className="row-head"><div id="torque-i">
                         HIGE/HOGE:

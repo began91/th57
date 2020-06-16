@@ -2,12 +2,14 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    background-color: skyblue;
 }
 
 table {
     max-width: 500px;
     border-collapse: collapse;
-    margin: 0 5px;
+    margin: 5px 5px;
+    background-color: white;
 }
 
 th, td {
@@ -17,7 +19,7 @@ th, td {
 }
 
 tr.no-borders th, tr.no-borders td {
-    border: 0px solid white;
+    border: none;
 }
 
 tr.no-borders td {
@@ -25,6 +27,15 @@ tr.no-borders td {
     border-left: 2px solid black;
     border-right: 2px solid black;
     text-align: auto;
+}
+
+.bottom-row {
+    border-bottom: 2px solid black;
+}
+
+tbody.second-table {
+    border: 2px solid black;
+
 }
 
 tr.no-borders td.light-underline {
@@ -67,7 +78,7 @@ tr.no-borders td.heavy-top {
 
 .fuel-radio {
     display: block;
-    min-width: 57px;
+    min-width: 65px;
 }
 
 label.fuel-radio span {

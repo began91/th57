@@ -231,7 +231,7 @@ class Results extends React.Component {
                                         <span>70g</span>
                                     </label>
                                     <label className="fuel-radio" htmlFor="65g">
-                                        <input type="radio" name="fuel" value="65g" id="70g" onChange={this.handleFuelChange} checked={this.props.fuelState==='65g'}/>
+                                        <input type="radio" name="fuel" value="65g" id="65g" onChange={this.handleFuelChange} checked={this.props.fuelState==='65g'}/>
                                         <span>65g</span>
                                     </label>
                                     <label className="fuel-radio" htmlFor="__g">

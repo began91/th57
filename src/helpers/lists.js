@@ -384,7 +384,7 @@ function inst28(name, wet) {
     }
 }
 
-const instList28 = [
+const instList28 = [//wet weight
     inst28('ASPHOLM',200),
     inst28('BASTEMEYER',230),
     inst28('BAXTER',220),
@@ -405,7 +405,7 @@ const instList28 = [
     inst28('DAVIS,J',245),
     inst28('DAVIS,N',170),
     inst28('DEBBINK',215),
-    inst28('EGAN',230),
+    inst28('EGAN',240),
     inst28('ELLWOOD',230),
     inst28('FREEMAN',205),
     inst28('GIBBONS',248),
@@ -420,23 +420,25 @@ const instList28 = [
     inst28('HUDSON',250),
     inst28('ISBELL',220),
     inst28('JACOBS',255),
+    inst28('JUDD',190),
     inst28('KARR',210),
     inst28('KELLNER',230),
-    inst28('KENSHALO',230),
+    inst28('KENSHALO',210),
     inst28('KERZIE',170),
     inst28('KLUMP',285),
     inst28('KLYNMAN',160),
     inst28('KOLCZYNSKI',240),
     inst28('KORVER',215),
-    inst28('KROLL',210),
+    inst28('KROLL',165),
     inst28('LENICK',215),
     inst28('LONG',230),
-    inst28('MARCUM',10),//need weight
+    inst28('MARCUM',180),//need weight
+    inst28('MARTIN',260),
     inst28('MAUSTELLER',255),
     inst28('MCKERREN',255),
     inst28('MINETTE',210),
     inst28('MOORE',230),
-    inst28('MOURITSEN',10),//need weight
+    inst28('MOURITSEN',210),//need weight
     inst28('NEASE',205),
     inst28("O'BRIEN",180),
     inst28('OUELLETTE',215),
@@ -446,20 +448,20 @@ const instList28 = [
     inst28('PELZER',265),
     inst28('PETERSEN',260),
     inst28('PUSINS',225),
-    inst28('REYNOLDS',230),
+    inst28('REYNOLDS',235),
     inst28('SHIPP',230),
     inst28('SKELLEY',195),
-    inst28('SLEEPER',240),
+    inst28('SLEEPER',220),
     inst28('SNIPES',180),
     inst28('SONCINI',245),
-    inst28('STEWART',10),//need weight
+    inst28('STEWART',205),//need weight
     inst28('STILES',190),
     inst28('STREFF',210),
     inst28('SWEENEY',215),
     inst28('TEMPLIN',205),
     inst28('TOPP',190),
     inst28('TRAMELL',240),
-    inst28('TREMAINE',270),
+    inst28('TREMAINE',245),
     inst28('TROUBLEFIELD',220),
     inst28('UMEMURA',230),
     inst28('VIRDEN',215),
@@ -470,7 +472,8 @@ const instList28 = [
     inst28('WHEATON',200),
     inst28('WILLSEY',260),
     inst28('WOOTEN',210),
-    inst28('WRIGHT',175)
+    inst28('WRIGHT',175),
+    inst28('YODER',230)
 ];
 
 const instructorList = [
@@ -480,7 +483,7 @@ const instructorList = [
         sqd: 'TW-5',
         wet: 220,
         dry: 210,
-        id: 'Santa: TW-5'
+        id: 'SANTA: TW-5'
     },
     ...instList8,
     ...instList18,

@@ -9,6 +9,8 @@ table {
     border-collapse: collapse;
     margin: 5px 5px 15px 5px;
     background-color: white;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
 }
 
 th, td {
@@ -26,10 +28,6 @@ tr.no-borders td {
     border-left: 2px solid black;
     border-right: 2px solid black;
     text-align: auto;
-}
-
-.bottom-row {
-    border-bottom: 2px solid black;
 }
 
 tbody.second-table {

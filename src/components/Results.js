@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import { setValue } from '../actions/Actions';
 import './Results.css';
 import { getAcftById, getHeaviestAndMostForward } from '../helpers/lists';
+import ResultRow from './ResultRow';
+import InputRow from './InputRow';
 
 let fuelMoment = fuel => {
     let cg=[110.3,110.7,110.8,110.8,110.8,110.8,110.9,111.5,112.8,113.8,114.6,115.3,115.9,116.4,116.9,117.2,117.6,117.9,118.0];
@@ -127,8 +129,10 @@ class Results extends React.Component {
         let hoge = Math.round((ma * smallGW + ba) * Math.pow(smallDA, 2) + (mb * smallGW + bb) * smallDA +  (mc * smallGW + bc));
         let hige = Math.round(0.9055 * hoge - 1.8727);
 
+        let side = aircraft.side === 'unk' ? 'FWD CG' : aircraft.id
+
         return {
-            pax, paxExternal, baggage, aircraft,
+            pax, paxExternal, baggage, aircraft, side,
             fuel, crewFwd, da, heavWt, fwdWt, basicMoment, heavOpWt,
             fwdOpWt, opMoment, heavGW, fwdGW, takeoffMoment, takeoffArm, extGW,
             extMoment, extArm, lndWt, lndMoment, lndArm, highGW, cgLow, heavier,
@@ -182,42 +186,39 @@ class Results extends React.Component {
                     <tr>
                         <th></th>
                         <th className="col2">Heavy {result.aircraft.series}</th>
-                        <th>{result.aircraft.side === 'N/A' ? 'FWD CG' : result.aircraft.id}</th>
+                        <th>{result.side}</th>
                         <th>Moment</th>
                     </tr>
-                    <tr>
-                        <th className="row-head">Basic Wt:</th>
-                        <td className="col2">{result.heavWt}</td>
-                        <td>{result.fwdWt}</td>
-                        <td>{result.basicMoment}</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Crew Fwd:</th>
-                        <td className="col2">{result.crewFwd}</td>
-                        <td>{result.crewFwd}</td>
-                        <td>{Math.round(result.crewFwd*0.65*100)/100}</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Oil:</th>
-                        <td className="col2">12</td>
-                        <td>12</td>
-                        <td>22</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Op Wt:</th>
-                        <td className="col2">{result.heavOpWt.toFixed(1)}</td>
-                        <td>{result.fwdOpWt}</td>
-                        <td>{result.opMoment.toFixed(2)}</td>
-                    </tr>
+
+                    <ResultRow head="Basic Wt:" 
+                    col2={result.heavWt.toFixed(2)} 
+                    col3={result.fwdWt.toFixed(2)} 
+                    col4={result.basicMoment} />
+                    
+                    <ResultRow head="Crew Fwd:" 
+                    col2={result.crewFwd} 
+                    col3={result.crewFwd} 
+                    col4={Math.round(result.crewFwd*0.65*100)/100} />
+
+                    <ResultRow head="Oil:" 
+                    col2={12} 
+                    col3={12} 
+                    col4={22} />
+
+                    <ResultRow head="Op Wt:" 
+                    col2={result.heavOpWt.toFixed(1)} 
+                    col3={result.fwdOpWt.toFixed(1)} 
+                    col4={result.opMoment.toFixed(2)} />
+
                     <tr>
                         <th colSpan="4" className="heading">Takeoff</th>
                     </tr>
-                    <tr>
-                        <th className="row-head">Op Wt:</th>
-                        <td className="col2">{result.heavOpWt.toFixed(1)}</td>
-                        <td>{result.fwdOpWt.toFixed(1)}</td>
-                        <td>{result.opMoment.toFixed(2)}</td>
-                    </tr>
+
+                    <ResultRow head="Op Wt:" 
+                    col2={result.heavOpWt.toFixed(1)} 
+                    col3={result.fwdOpWt.toFixed(1)} 
+                    col4={result.opMoment.toFixed(2)} />
+
                     <tr>
                         <th className="row-head">
                             <div id="fuel-cell">
@@ -245,24 +246,18 @@ class Results extends React.Component {
                         <td>{result.fuel}</td>
                         <td>{fuelMoment(result.fuel).toFixed(2)}</td>
                     </tr>
-                    <tr>
-                        <th className="row-head">Crew Aft:</th>
-                        <td className="col2"><input type="number" pattern="[0-9]*" className="pax" value={this.props.pax} onChange={this.handleInput} /></td>
-                        <td><input type="number" pattern="[0-9]*" className="pax" value={this.props.pax} onChange={this.handleInput} /></td>
-                        <td>{Math.round(result.pax * result.paxArm*100)/100}</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Baggage:</th>
-                        <td className="col2"><input type="number" pattern="[0-9]*" className="baggage" value={this.props.baggage} onChange={this.handleInput} /></td>
-                        <td><input type="number" pattern="[0-9]*" className="baggage" value={this.props.baggage} onChange={this.handleInput} /></td>
-                        <td>{Math.round(result.baggage * result.bagArm *100)/100}</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Gross Wt(1):</th>
-                        <td className="col2">{result.heavGW.toFixed(1)}</td>
-                        <td>{result.fwdGW.toFixed(1)}</td>
-                        <td>{result.takeoffMoment.toFixed(2)} ({result.takeoffArm.toFixed(1)})</td>
-                    </tr>
+
+                    <InputRow head="Crew Aft:" id="pax"
+                    col4={Math.round(result.pax * result.paxArm*100)/100} />
+                    
+                    <InputRow head="Baggage:" id="baggage"
+                    col4={Math.round(result.baggage * result.bagArm *100)/100} />
+                    
+                    <ResultRow head="Gross Wt(1):" 
+                    col2={result.heavGW.toFixed(1)} 
+                    col3={result.fwdGW.toFixed(1)} 
+                    col4={result.takeoffMoment.toFixed(2)+" ("+result.takeoffArm.toFixed(1)+")"}  />
+
                     <tr>
                         <th colSpan="4" className="heading">
                             <label htmlFor="extOps">
@@ -271,12 +266,11 @@ class Results extends React.Component {
                             </label>
                         </th>
                     </tr>
-                    <tr className="ext">
-                        <th className="row-head">Op Wt:</th>
-                        <td className="col2 gray"></td>
-                        <td>{result.fwdOpWt}</td>
-                        <td>{result.opMoment.toFixed(2)}</td>
-                    </tr>
+
+                    <ResultRow head="Op Wt:" ext={true} gray2={true}
+                    col3={result.fwdOpWt}
+                    col4={result.opMoment.toFixed(2)} />
+
                     <tr className="ext">
                         <th className="row-head">
                         <div className="ext-ops-fuel">
@@ -290,58 +284,37 @@ class Results extends React.Component {
                         <td>{Math.round(result.extFuel*10)/10}</td>
                         <td>{fuelMoment(result.extFuel)}</td>
                     </tr>
-                    <tr className="ext">
-                        <th className="row-head">Crew Aft:</th>
-                        <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="paxExternal" value={this.props.paxExternal} onChange={this.handleInput} /></td>
-                        <td>{Math.round(result.paxExternal * result.paxArm *100)/100}</td>
-                    </tr>
-                    <tr className="ext">
-                        <th className="row-head">Ext Load:</th>
-                        <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="extLoad" value={this.props.extLoad} onChange={this.handleInput} /></td>
-                        <td>{Math.round(result.extLoad * 1.071*100)/100}</td>
-                    </tr>
-                    <tr className="ext">
-                        <th className="row-head">Gross Wt(2):</th>
-                        <td className="col2 gray"></td>
-                        <td>{result.extGW}</td>
-                        <td>{result.extMoment} ({result.extArm})</td>
-                    </tr>
+
+                    <InputRow head="Crew Aft:" gray2={true} ext={true} id="paxExternal"
+                    col4={Math.round(result.paxExternal * result.paxArm *100)/100}/>
+                    
+                    <InputRow head="Ext Load" gray2={true} ext={true} id="extLoad"
+                    col4={Math.round(result.extLoad * 1.071*100)/100}/>
+
+                    <ResultRow head="Gross Wt(2):" gray2={true} ext={true}
+                    col3={result.extGW}
+                    col4={result.extMoment+" ("+result.extArm+")"} />
+
                     <tr>  
                         <th colSpan="4" className="heading">Landing</th>
                     </tr>
-                    <tr>
-                        <th className="row-head">Op Wt:</th>
-                        <td className="col2 gray"></td>
-                        <td>{result.fwdOpWt}</td>
-                        <td>{result.opMoment.toFixed(2)}</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Fuel (10g):</th>
-                        <td className="col2 gray"></td>
-                        <td>67</td>
-                        <td>74.17</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Crew Aft:</th>
-                        <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="pax" value={this.props.pax} onChange={this.handleInput} /></td>
-                        <td>{Math.round(result.pax * result.paxArm * 100)/100}</td>
-                    </tr>
-                    <tr>
-                        <th className="row-head">Baggage:</th>
-                        <td className="col2 gray"></td>
-                        <td><input type="number" pattern="[0-9]*" className="baggage" value={this.props.baggage} onChange={this.handleInput} /></td>
-                        <td>{Math.round(result.baggage * result.bagArm*100)/100}</td>
-                    </tr>
-                    <tr className="bottom-row">
-                        <th className="row-head">Gross Wt(3):</th>
-                        <td className="col2 gray"></td>
-                        <td>{result.lndWt.toFixed(1)}</td>
-                        <td>{result.lndMoment.toFixed(2)} ({result.lndArm.toFixed(1)})</td>
-                    </tr>
-                    <tr className="heading bottom-row"></tr>
+
+                    <ResultRow head="Op Wt:" gray2={true}
+                    col3={result.fwdOpWt}
+                    col4={result.opMoment.toFixed(2)} />
+
+                    <ResultRow head="Fuel (10g):" gray2={true} col3={67} col4={74.17}/>
+
+                    <InputRow head="Crew Aft:" id="pax" gray2={true}
+                    col4={Math.round(result.pax * result.paxArm*100)/100} />
+                    
+                    <InputRow head="Baggage:" id="baggage" gray2={true}
+                    col4={Math.round(result.baggage * result.bagArm *100)/100} />
+
+                    <ResultRow head="Gross Wt(3):" gray={true}
+                    col3={result.lndWt.toFixed(1)}
+                    col4={result.lndMoment.toFixed(2)+" ("+result.lndArm.toFixed(1)+")"} />
+
                     </tbody>
                     </table>
                     <table>
@@ -391,14 +364,6 @@ class Results extends React.Component {
         );
     }
 }
-/*
-Results.propTypes = {
-    addOne: PropTypes.func.isRequired,
-    fish: PropTypes.number,
-    extOps: PropTypes.bool.isRequired,
-    pax: PropTypes.number
-}
-*/
 
 const mapStateToProps = state => ({
     extOps: state.app.extOps,

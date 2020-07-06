@@ -82,13 +82,13 @@ class Results extends React.Component {
         let heavGW = Math.round((heavOpWt + fuel + pax + baggage)*10)/10;
         let fwdGW = Math.round((fwdOpWt + fuel + pax + baggage)*10)/10;
         let takeoffMoment = Math.round((opMoment + fuelMoment(fuel) + pax * paxArm + baggage * bagArm)*100)/100;
-        let takeoffArm = Math.round( takeoffMoment / fwdGW * 1000)/10;
+        let takeoffArm = Math.round( takeoffMoment / fwdGW * 10000)/100;
         let maxFuel = Math.min(Math.floor((3200 - heavOpWt - pax - baggage) / 6.7), 91);
 
         //Externals
         let extGW = Math.round((fwdOpWt + extFuel + paxExternal + extLoad)*10)/10;
         let extMoment = Math.round((opMoment + fuelMoment(extFuel) + paxExternal * paxArm + extLoad*1.071)*100)/100;
-        let extArm = Math.round(extMoment / extGW * 1000)/10;
+        let extArm = Math.round(extMoment / extGW * 10000)/100;
         let maxFuelExt = Math.min(
             Math.floor((3350 - fwdOpWt - paxExternal - extLoad) / 6.7), 
             Math.floor((3200 - fwdOpWt - paxExternal) / 6.7 ),
@@ -97,7 +97,7 @@ class Results extends React.Component {
         //Landing Weight/Moment
         let lndWt = fwdOpWt + 67 + pax + baggage;
         let lndMoment = Math.round((opMoment + 74.17 + pax * paxArm + baggage * bagArm)*100)/100;
-        let lndArm = Math.round(lndMoment / lndWt * 1000)/10;
+        let lndArm = Math.round(lndMoment / lndWt * 10000)/100;
 
         let highGW, maxTakeoffArm, heavier;
 
@@ -329,7 +329,7 @@ class Results extends React.Component {
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">T/O CG:</th>
-                        <td colSpan="0" className={(result.maxTakeoffArm > result.cgHighTakeoff || result.maxTakeoffArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.maxTakeoffArm.toFixed(1)}</td>
+                        <td colSpan="0" className={(result.maxTakeoffArm > result.cgHighTakeoff || result.maxTakeoffArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.maxTakeoffArm.toFixed(2)}</td>
                     </tr>
                     <tr className="no-borders"><th colSpan="2"><br/></th></tr>
                     <tr className="no-borders">
@@ -342,7 +342,7 @@ class Results extends React.Component {
                     </tr>
                     <tr className="no-borders">
                         <th className="row-head">Lnd CG:</th>
-                        <td colSpan="0" className={(result.lndArm > result.cgHighLand || result.lndArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.lndArm.toFixed(1)}</td>
+                        <td colSpan="0" className={(result.lndArm > result.cgHighLand || result.lndArm < result.cgLow) ? 'err' : 'good'}><span role="img" aria-label="warning">⚠️</span>{result.lndArm.toFixed(2)}</td>
                     </tr>
                     <tr className="no-borders"><th colSpan="2"><br/></th></tr>
                     <tr className="no-borders">

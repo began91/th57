@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { setValue, resetState } from './actions/Actions';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './App.css';
+import ORM from './components/ORM';
 import Form from './components/Form';
 import Results from './components/Results';
 import AircraftView from './components/AircraftView';
@@ -57,7 +58,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <style>
-          {'.WB-view, .AC-view, .INST-view, .ABOUT-view {display:none;}'}
+          {'.WB-view, .ORM-view, .AC-view, .INST-view, .ABOUT-view {display:none;}'}
           {'.'+this.props.app.view + '-view {display:block;}'}
         </style>
         <header className="App-header" onClick={this.setViewWB}>
@@ -71,6 +72,9 @@ class App extends React.Component {
         <div className="WB-view">
           <Form/>
           <Results/>
+        </div>
+        <div className="ORM-view">
+          <ORM />
         </div>
         <div className="AC-view">
           <AircraftView />

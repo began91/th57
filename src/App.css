@@ -5,10 +5,10 @@
   align-items: center;
 }
 
-.AC-view, .INST-view, .WB-view, .ABOUT-view {
+.AC-view, .INST-view, .WB-view, .ABOUT-view, .ORM-view {
   width: 100%;
   max-width: 650px;
-  border-radius: 20px;
+  border-radius: 10px;
   background-color: skyblue;
 }
 

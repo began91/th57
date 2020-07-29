@@ -28,8 +28,28 @@ const presets = {
     mxTmp: '',
     pa: '',
     da: '',
+    //ORM
+    picGen: null,
+    picSlp: null,
+    picProf: null,
+    picPres: null,
+    snaGen: null,
+    snaSlp: null,
+    snaProf: null,
+    snaPres: null,
+    ceil: null,
+    wind: null,
+    sigmet: null,
+    imc: null,
+    illum: null,
+    hr0: '',
+    hc0: '',
+    hr1: '',
+    hc1: '',
+    hr2: '',
+    hc2: '',
     //app
-    view: 'WB'
+    view: 'ORM'
 };
 
 //shallow copy

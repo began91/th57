@@ -1,0 +1,17 @@
+.risk-button-low.selected {
+    background-color: lightgreen;
+    border: 2px inset green;
+}
+
+.risk-button-med.selected {
+    background-color: yellow;
+    border: 2px inset goldenrod;
+}
+.risk-button-hgh.selected {
+    background-color: pink;
+    border: 2px inset red;
+}
+td button {
+    border-radius: 4px;
+    width: 28%;
+}

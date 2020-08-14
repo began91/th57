@@ -49,7 +49,7 @@ const presets = {
     hr2: '',
     hc2: '',
     //app
-    view: 'ORM'
+    view: 'WB'
 };
 
 //shallow copy

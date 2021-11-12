@@ -63,8 +63,8 @@ class App extends React.Component {
         </style>
         <header className="App-header" onClick={this.setViewWB}>
           <div className="logo-holder">
-            <img src={require('./images/helo.png')} alt="" className="helo" />
-            <img src={require('./images/rotor.png')} alt="" className="rotor App-logo" />
+            <img src={require('./images/helo.png').default} alt="" className="helo" />
+            <img src={require('./images/rotor.png').default} alt="" className="rotor App-logo" />
           </div>
           <span>TH-57 Weight and Balance</span>
         </header>

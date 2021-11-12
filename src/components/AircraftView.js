@@ -72,6 +72,7 @@ function AircraftView() {
                     })}
                 </tbody>
             </table>
+            <p>Updated: October 2021</p>
         </div>
     );
 }
